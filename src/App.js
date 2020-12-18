@@ -106,21 +106,21 @@ function App() {
             RitualHub
           </Typography>
           <Button color="inherit" startIcon={<SearchIcon />} href='/'>Search</Button>
-          <Button color="inherit" startIcon={<InfoIcon />} href="RitualHub/about">About</Button>
-          <Button color="inherit" startIcon={<CodeIcon />} href="RitualHub/edit">Contribute</Button>
+          <Button color="inherit" startIcon={<InfoIcon />} href="/about">About</Button>
+          <Button color="inherit" startIcon={<CodeIcon />} href="/edit">Contribute</Button>
         </Toolbar>
       </AppBar>
-      <Router>
+      <Router basename={process.env.PUBLIC_URL}>
         <div className={classes.body}>
           <div className={classes.content}>
           <Switch>
-            <Route exact path="RitualHub/">
+            <Route exact path="/">
               {QueryReader()}
             </Route>
-            <Route exact path="RitualHub/about">
+            <Route exact path="/about">
               {about()}
             </Route>
-            <Route exact path="RitualHub/edit">
+            <Route exact path="/edit">
               <p>Editing</p>
             </Route>
           </Switch>
