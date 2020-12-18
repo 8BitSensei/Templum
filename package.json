@@ -1,5 +1,6 @@
 {
-  "name": "hosthub",
+  "homepage" : "http://8bitsensei.github.io/RitualHub/",
+  "name": "ritualhub",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
@@ -33,7 +34,6 @@
     "predeploy": "npm run build",
     "deploy": "gh-pages -d build"
   },
-  "homepage" : "https://8bitsensei.github.io/ritualhub/",
   "eslintConfig": {
     "extends": "react-app"
   },

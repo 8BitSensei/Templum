@@ -106,21 +106,21 @@ function App() {
             RitualHub
           </Typography>
           <Button color="inherit" startIcon={<SearchIcon />} href='/'>Search</Button>
-          <Button color="inherit" startIcon={<InfoIcon />} href="/about">About</Button>
-          <Button color="inherit" startIcon={<CodeIcon />} href="/edit">Contribute</Button>
+          <Button color="inherit" startIcon={<InfoIcon />} href="RitualHub/about">About</Button>
+          <Button color="inherit" startIcon={<CodeIcon />} href="RitualHub/edit">Contribute</Button>
         </Toolbar>
       </AppBar>
       <Router>
         <div className={classes.body}>
           <div className={classes.content}>
           <Switch>
-            <Route exact path="/">
+            <Route exact path="RitualHub/">
               {QueryReader()}
             </Route>
-            <Route exact path="/about">
+            <Route exact path="RitualHub/about">
               {about()}
             </Route>
-            <Route exact path="/edit">
+            <Route exact path="RitualHub/edit">
               <p>Editing</p>
             </Route>
           </Switch>
