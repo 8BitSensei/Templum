@@ -59,13 +59,13 @@ const useStyles = makeStyles((theme) => ({
 // This whole hacky function is here because Github Pages does not handle single-page app routing! You can read more here: https://itnext.io/so-you-want-to-host-your-single-age-react-app-on-github-pages-a826ab01e48
 function RouterHack()
 {
-    let location = (window.location + '').split("/")[4];
+    let location = (window.location + '').split("/")[4]  + (window.location + '').split("/")[5];
     let search = window.location.search;
     let params = new URLSearchParams(search);
 
     console.log("Test: " + location);
 
-    if(location == "")
+    if(location == "" || location == "undefined")
     {
       return(
         <React.Fragment>
@@ -85,11 +85,11 @@ function RouterHack()
         </React.Fragment>
       );
     }
-    else if(location == "about")
+    else if(location == "?about")
     {
       return(<p>About</p>);
     }
-    else if(location == "edit")
+    else if(location == "?edit")
     {
       return(<p>Edit</p>);
     }
@@ -109,8 +109,8 @@ function App() {
             RitualHub
           </Typography>
           <Button color="inherit" startIcon={<SearchIcon />} href={process.env.PUBLIC_URL + "/"}>Search</Button>
-          <Button color="inherit" startIcon={<InfoIcon />} href={process.env.PUBLIC_URL + "/about"}>About</Button>
-          <Button color="inherit" startIcon={<CodeIcon />} href={process.env.PUBLIC_URL + "/edit"}>Contribute</Button>
+          <Button color="inherit" startIcon={<InfoIcon />} href={process.env.PUBLIC_URL + "/?/about"}>About</Button>
+          <Button color="inherit" startIcon={<CodeIcon />} href={process.env.PUBLIC_URL + "/?/edit"}>Contribute</Button>
         </Toolbar>
       </AppBar>
       <Router basename={process.env.PUBLIC_URL}>
