@@ -11,6 +11,7 @@
     "@testing-library/user-event": "^7.2.1",
     "atob": "^2.1.2",
     "btoa": "^1.2.1",
+    "gh-pages": "^3.1.0",
     "octokat": "^0.10.0",
     "query-string": "^6.13.7",
     "react": "^16.12.0",
@@ -28,8 +29,11 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "predeploy": "npm run build",
+    "deploy": "gh-pages -d build"
   },
+  "homepage" : "https://8bitsensei.github.io/ritualhub/",
   "eslintConfig": {
     "extends": "react-app"
   },
