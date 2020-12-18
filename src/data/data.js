@@ -8,6 +8,7 @@ import Accordion from '@material-ui/core/Accordion';
 import AccordionSummary from '@material-ui/core/AccordionSummary';
 import AccordionDetails from '@material-ui/core/AccordionDetails';
 import { Grid, Typography } from '@material-ui/core';
+import Pagination from '@material-ui/lab/Pagination';
 
 import TableContainer from "@material-ui/core/TableContainer";
 import TableRow from "@material-ui/core/TableRow";
@@ -41,10 +42,19 @@ const Data = (props) => {
     const [config, setConfig] = React.useState(undefined);
     const [filteredSites, setFilteredSites] = React.useState([]);
     const [orderByEarliest, setOrderByEarliest] = React.useState(false);
+    const [currentActivePage, setActivePage] = React.useState(1);
+    const [itemsPerPage, setItemsPerPage] = React.useState(10);
     const db_name = "RitualSites/ritualSites.json";
-
     const classes = useStyles();
     
+    const handlePageChange = (event, value) => {
+      setActivePage(value);
+      renderSite();
+      let start = ((currentActivePage - 1) * (itemsPerPage + 1));
+      let end = (currentActivePage * itemsPerPage);
+      console.log(`active page is ${currentActivePage} start: ${start} end: ${end}`);
+    }
+
     function loadDbFileGithub() {
       var githubApi = new GithubApi("8BitSensei", "Datasets", "master");
       githubApi.get(db_name, (err, res) => {
@@ -145,9 +155,9 @@ const Data = (props) => {
                 <Button color="inherit"  onClick={() => {orderDate(downloadJson)}} endIcon={<CloudDownload />}>Download results</Button>
               </Grid>
               {
-                filteredSites.map(site => {
+                
+                filteredSites.slice(((currentActivePage - 1) * (itemsPerPage + 1)), (currentActivePage * itemsPerPage)).map(site => {
                   let bibliography = site.bibliography && site.bibliography.length > 0 ? site.bibliography.join(", ") : null;
-                  console.log("Test " + site.site);
                   return(
                     <Grid item xs={12}>
                       <Accordion>
@@ -191,6 +201,9 @@ const Data = (props) => {
                   );
                 })
               }
+              <Grid item xs={12}>
+                <Pagination count={Math.ceil(filteredSites.length / itemsPerPage)} variant="outlined" shape="rounded" onChange={handlePageChange} />
+              </Grid>
             </Grid>
           </React.Fragment>
         );
@@ -201,6 +214,7 @@ const Data = (props) => {
             {config !== null && config !== undefined ? (renderSite(config)) : (
             <React.Fragment>
                 {loadDbFileGithub()}
+                
             </React.Fragment>
             )}
       </div>
