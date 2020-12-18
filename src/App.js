@@ -91,13 +91,12 @@ function QueryReader()
 }
 
 function about(){
-  console.log("about");
+  console.log("about" + process.env.PUBLIC_URL);
   return(<p>About</p>);
 }
 
 function App() {
   const classes = useStyles();
-  console.log("TEST: " + process.env.PUBLIC_URL);
   return (
     <div className="App">
       <AppBar position="static" color="secondary" >
@@ -105,7 +104,7 @@ function App() {
           <Typography className={classes.title} variant="h4" href='/'>
             RitualHub
           </Typography>
-          <Button color="inherit" startIcon={<SearchIcon />} href='/'>Search</Button>
+          <Button color="inherit" startIcon={<SearchIcon />} href={process.env.PUBLIC_URL + "/"}>Search</Button>
           <Button color="inherit" startIcon={<InfoIcon />} href="/about">About</Button>
           <Button color="inherit" startIcon={<CodeIcon />} href="/edit">Contribute</Button>
         </Toolbar>
