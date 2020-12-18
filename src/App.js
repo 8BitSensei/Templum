@@ -58,10 +58,8 @@ const useStyles = makeStyles((theme) => ({
 
 function QueryReader()
 {
-    const classes = useStyles();
     let search = window.location.search;
     let params = new URLSearchParams(search);
-    console.log("params: " + params);
 
     if(params == "")
     {
@@ -91,7 +89,6 @@ function QueryReader()
 }
 
 function about(){
-  console.log("about test:" + process.env.PUBLIC_URL);
   return(<p>About</p>);
 }
 
@@ -105,8 +102,8 @@ function App() {
             RitualHub
           </Typography>
           <Button color="inherit" startIcon={<SearchIcon />} href={process.env.PUBLIC_URL + "/"}>Search</Button>
-          <Button color="inherit" startIcon={<InfoIcon />} href="/about">About</Button>
-          <Button color="inherit" startIcon={<CodeIcon />} href="/edit">Contribute</Button>
+          <Button color="inherit" startIcon={<InfoIcon />} href={process.env.PUBLIC_URL + "/about"}>About</Button>
+          <Button color="inherit" startIcon={<CodeIcon />} href={process.env.PUBLIC_URL + "/edit"}>Contribute</Button>
         </Toolbar>
       </AppBar>
       <Router basename={process.env.PUBLIC_URL}>
