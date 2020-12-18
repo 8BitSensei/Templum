@@ -101,9 +101,9 @@ function App() {
           <Typography className={classes.title} variant="h4" href='/'>
             RitualHub
           </Typography>
-          <Button color="inherit" startIcon={<SearchIcon />} href={process.env.PUBLIC_URL + "/"}>Search</Button>
-          <Button color="inherit" startIcon={<InfoIcon />} href={process.env.PUBLIC_URL + "/about"}>About</Button>
-          <Button color="inherit" startIcon={<CodeIcon />} href={process.env.PUBLIC_URL + "/edit"}>Contribute</Button>
+          <Button color="inherit" startIcon={<SearchIcon />} href={"/"}>Search</Button>
+          <Button color="inherit" startIcon={<InfoIcon />} href={ "/about"}>About</Button>
+          <Button color="inherit" startIcon={<CodeIcon />} href={"/edit"}>Contribute</Button>
         </Toolbar>
       </AppBar>
       <Router basename={process.env.PUBLIC_URL}>
@@ -123,7 +123,7 @@ function App() {
           </div>
           <footer className={classes.footer}>
             <hr className={classes.introBorder}/>
-            <Button className={classes.footerButton} color="inherit" startIcon={<ProblemIcon />} href="/edit">Report a problem</Button>
+            <Button className={classes.footerButton} color="inherit" startIcon={<ProblemIcon />} href="https://github.com/8BitSensei/RitualHub/issues/new">Report a problem</Button>
             <a className={classes.footerText} rel="license" href="http://creativecommons.org/licenses/by-nc/4.0/"><img alt="Creative Commons License" style={{borderWidth:'0'}} src="https://i.creativecommons.org/l/by-nc/4.0/88x31.png" /></a><br />
         </footer>
         </div>
