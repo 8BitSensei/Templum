@@ -1,0 +1,22 @@
+{
+  "files": {
+    "main.css": "/hosthub/static/css/main.ab642f1b.chunk.css",
+    "main.js": "/hosthub/static/js/main.8fb1752f.chunk.js",
+    "main.js.map": "/hosthub/static/js/main.8fb1752f.chunk.js.map",
+    "runtime-main.js": "/hosthub/static/js/runtime-main.89072ed7.js",
+    "runtime-main.js.map": "/hosthub/static/js/runtime-main.89072ed7.js.map",
+    "static/js/2.20a991e1.chunk.js": "/hosthub/static/js/2.20a991e1.chunk.js",
+    "static/js/2.20a991e1.chunk.js.map": "/hosthub/static/js/2.20a991e1.chunk.js.map",
+    "static/js/3.b6c8364e.chunk.js": "/hosthub/static/js/3.b6c8364e.chunk.js",
+    "static/js/3.b6c8364e.chunk.js.map": "/hosthub/static/js/3.b6c8364e.chunk.js.map",
+    "index.html": "/hosthub/index.html",
+    "static/css/main.ab642f1b.chunk.css.map": "/hosthub/static/css/main.ab642f1b.chunk.css.map",
+    "static/js/2.20a991e1.chunk.js.LICENSE.txt": "/hosthub/static/js/2.20a991e1.chunk.js.LICENSE.txt"
+  },
+  "entrypoints": [
+    "static/js/runtime-main.89072ed7.js",
+    "static/js/2.20a991e1.chunk.js",
+    "static/css/main.ab642f1b.chunk.css",
+    "static/js/main.8fb1752f.chunk.js"
+  ]
+}
