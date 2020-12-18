@@ -97,7 +97,7 @@ function about(){
 
 function App() {
   const classes = useStyles();
-
+  console.log("TEST: " + process.env.PUBLIC_URL);
   return (
     <div className="App">
       <AppBar position="static" color="secondary" >
