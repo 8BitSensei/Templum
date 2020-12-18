@@ -91,7 +91,7 @@ function QueryReader()
 }
 
 function about(){
-  console.log("about" + process.env.PUBLIC_URL);
+  console.log("about test:" + process.env.PUBLIC_URL);
   return(<p>About</p>);
 }
 
