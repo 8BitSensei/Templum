@@ -63,6 +63,8 @@ function RouterHack()
     let search = window.location.search;
     let params = new URLSearchParams(search);
 
+    console.log("Test: " + location);
+
     if(location == "")
     {
       return(
