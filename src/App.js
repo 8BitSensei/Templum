@@ -56,12 +56,14 @@ const useStyles = makeStyles((theme) => ({
   }
 }));
 
-function QueryReader()
+// This whole hacky function is here because Github Pages does not handle single-page app routing! You can read more here: https://itnext.io/so-you-want-to-host-your-single-age-react-app-on-github-pages-a826ab01e48
+function RouterHack()
 {
+    let location = (window.location + '').split("/")[4];
     let search = window.location.search;
     let params = new URLSearchParams(search);
 
-    if(params == "")
+    if(location == "")
     {
       return(
         <React.Fragment>
@@ -79,17 +81,20 @@ function QueryReader()
             </Grid>
           </Grid>
         </React.Fragment>
-        
       );
+    }
+    else if(location == "about")
+    {
+      return(<p>About</p>);
+    }
+    else if(location == "edit")
+    {
+      return(<p>Edit</p>);
     }
     else
     {
       return(<Data query={params}></Data>);
     }
-}
-
-function about(){
-  return(<p>About</p>);
 }
 
 function App() {
@@ -101,23 +106,17 @@ function App() {
           <Typography className={classes.title} variant="h4" href='/'>
             RitualHub
           </Typography>
-          <Button color="inherit" startIcon={<SearchIcon />} href={"/"}>Search</Button>
-          <Button color="inherit" startIcon={<InfoIcon />} href={ "/about"}>About</Button>
-          <Button color="inherit" startIcon={<CodeIcon />} href={"/edit"}>Contribute</Button>
+          <Button color="inherit" startIcon={<SearchIcon />} href={process.env.PUBLIC_URL + "/"}>Search</Button>
+          <Button color="inherit" startIcon={<InfoIcon />} href={process.env.PUBLIC_URL + "/about"}>About</Button>
+          <Button color="inherit" startIcon={<CodeIcon />} href={process.env.PUBLIC_URL + "/edit"}>Contribute</Button>
         </Toolbar>
       </AppBar>
       <Router basename={process.env.PUBLIC_URL}>
         <div className={classes.body}>
           <div className={classes.content}>
           <Switch>
-            <Route exact path="/">
-              {QueryReader()}
-            </Route>
-            <Route exact path="/about">
-              {about()}
-            </Route>
-            <Route exact path="/edit">
-              <p>Editing</p>
+            <Route path="/">
+              {RouterHack()}
             </Route>
           </Switch>
           </div>
