@@ -8,9 +8,7 @@ export default class GithubAPi {
     }
   
     get(name, callback) {
-        var currentRepo = new Octokat({
-          token: "649982513b6f322f79a5974ce496f4841f32587b"
-        }).repos(this.username, this.repo);
+        var currentRepo = new Octokat().repos(this.username, this.repo);
         if (name.indexOf(".json") !== -1) {
             currentRepo.contents(name).fetch(
             {
