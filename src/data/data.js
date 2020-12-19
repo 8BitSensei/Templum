@@ -64,23 +64,36 @@ const Data = (props) => {
     }
 
     function loadDbFileGithub() {
-      var githubApi = new GithubApi("8BitSensei", "Datasets", "master");
+      var githubApi = new GithubApi("8BitSensei", "Dataset", "master");
       githubApi.get(db_name, (err, res) => {
-        if (res === null || res === undefined || res === "") {
-          res = {
-            description: "Config description",
-            name: "my config",
-            sites: []
+        if(err)
+        {
+          console.log(err);
+          let newConfig = {
+            path: db_name,
+            error: err.message
           };
-        }
-  
-        let newConfig = {
-          path: db_name,
-          data: res.content
-        };
 
-        filterEngine(newConfig);
-        setConfig(newConfig);
+          setConfig(newConfig);
+        }
+        else
+        {
+          if (res === null || res === undefined || res === "") {
+            res = {
+              description: "Config description",
+              name: "my config",
+              sites: []
+            };
+          }
+    
+          let newConfig = {
+            path: db_name,
+            data: res.content
+          };
+  
+          filterEngine(newConfig);
+          setConfig(newConfig);
+        }
       });
     }
 
@@ -146,90 +159,119 @@ const Data = (props) => {
     }
 
     function renderSite() {
-        return (
-          <React.Fragment>
-            <Grid container spacing={1} justify="center"  >
-              <Grid item xs={12}>
-                <h1> {filteredSites.length} Sites found...</h1>
-                <hr/>
+        if(filteredSites.length == 0)
+        {
+          if(config.error != undefined)
+          {
+            return(
+              <React.Fragment>
+                <Grid container spacing={1} justify="center"  >
+                  <Grid item xs={12}>
+                    <h1>Uh oh, looks like you may have reached your rate limit, please try again later...</h1>
+                    <hr/>
+                  </Grid>
+                </Grid>
+              </React.Fragment>
+            );
+          }
+          return(
+            <React.Fragment>
+              <Grid container spacing={1} justify="center"  >
+                <Grid item xs={12}>
+                  <h1> No results found...</h1>
+                  <hr/>
+                </Grid>
               </Grid>
-              <Grid item xs={3}>
-                <Button color="inherit"  onClick={() => {orderDate(!orderByEarliest)}} endIcon={orderByEarliest ? <KeyboardArrowDown /> : <KeyboardArrowUp /> }>Filter by date</Button>
+            </React.Fragment>
+          );
+        }
+        else 
+        {
+          return (
+            <React.Fragment>
+              <Grid container spacing={1} justify="center"  >
+                <Grid item xs={12}>
+                  <h1> {filteredSites.length} Sites found...</h1>
+                  <hr/>
+                </Grid>
+                <Grid item xs={3}>
+                  <Button color="inherit"  onClick={() => {orderDate(!orderByEarliest)}} endIcon={orderByEarliest ? <KeyboardArrowDown /> : <KeyboardArrowUp /> }>Filter by date</Button>
+                </Grid>
+                <Grid item xs={3}>
+                <FormControl variant="outlined" className={classes.formControl}>
+                  <InputLabel id="demo-simple-select-outlined-label">
+                    Items per page
+                  </InputLabel>
+                  <Select
+                    labelId="demo-simple-select-outlined-label"
+                    id="demo-simple-select-outlined"
+                    value={itemsPerPage}
+                    onChange={handleItemsPerPage}
+                    label="Items"
+                  >
+                    <MenuItem value={10}>10</MenuItem>
+                    <MenuItem value={20}>20</MenuItem>
+                    <MenuItem value={30}>30</MenuItem>
+                  </Select>
+                </FormControl>
+                </Grid>
+                <Grid item xs={3}>
+                  <Button color="inherit"  onClick={() => {orderDate(downloadJson)}} endIcon={<CloudDownload />}>Download results</Button>
+                </Grid>
+                {
+                  
+                  filteredSites.slice(((currentActivePage - 1) * (itemsPerPage)), (currentActivePage * itemsPerPage)).map(site => {
+                    let bibliography = site.bibliography && site.bibliography.length > 0 ? site.bibliography.join(", ") : null;
+                    return(
+                      <Grid item xs={12}>
+                        <Accordion>
+                          <AccordionSummary
+                            expandIcon={<ExpandMoreIcon  color="disabled"/>}
+                            aria-controls="panel1bh-content"
+                            id="panel1bh-header"
+                            align="left"
+                            backgroundColor="black"
+                            classes={{root: classes.summary}}
+                          >
+                            <div className={classes.column}>
+                              <Typography className={classes.heading}>{site.site}</Typography>
+                            </div>
+                            <div className={classes.column}>
+                              <Typography className={classes.secondaryHeading}>From {site.start} to {site.end}</Typography>
+                            </div>
+                          </AccordionSummary>
+                          <AccordionDetails>
+                            <TableContainer>
+                              <Table aria-label="simple table">
+                                <TableBody>
+                                  <TableRow>
+                                    <TableCell component="th" scope="row"><b>Location</b></TableCell>
+                                    <TableCell align="left">{site.location}</TableCell>
+                                  </TableRow>
+                                  <TableRow>
+                                    <TableCell component="th" scope="row"><b>Description</b></TableCell>
+                                    <TableCell align="left">{site.description}</TableCell>
+                                  </TableRow>
+                                  <TableRow>
+                                    <TableCell component="th" scope="row"><b>Bibliography</b></TableCell>
+                                    <TableCell align="left">{bibliography}</TableCell>
+                                  </TableRow>
+                                </TableBody>
+                              </Table>
+                            </TableContainer>
+                          </AccordionDetails>
+                        </Accordion>
+                      </Grid>
+                    );
+                  })
+                }
+                <Grid item xs={12} >
+                  <Pagination count={Math.ceil(filteredSites.length / itemsPerPage)} variant="outlined" shape="rounded" onChange={handlePageChange} />
+                </Grid>
               </Grid>
-              <Grid item xs={3}>
-              <FormControl variant="outlined" className={classes.formControl}>
-                <InputLabel id="demo-simple-select-outlined-label">
-                  Items per page
-                </InputLabel>
-                <Select
-                  labelId="demo-simple-select-outlined-label"
-                  id="demo-simple-select-outlined"
-                  value={itemsPerPage}
-                  onChange={handleItemsPerPage}
-                  label="Items"
-                >
-                  <MenuItem value={10}>10</MenuItem>
-                  <MenuItem value={20}>20</MenuItem>
-                  <MenuItem value={30}>30</MenuItem>
-                </Select>
-              </FormControl>
-              </Grid>
-              <Grid item xs={3}>
-                <Button color="inherit"  onClick={() => {orderDate(downloadJson)}} endIcon={<CloudDownload />}>Download results</Button>
-              </Grid>
-              {
-                
-                filteredSites.slice(((currentActivePage - 1) * (itemsPerPage)), (currentActivePage * itemsPerPage)).map(site => {
-                  let bibliography = site.bibliography && site.bibliography.length > 0 ? site.bibliography.join(", ") : null;
-                  return(
-                    <Grid item xs={12}>
-                      <Accordion>
-                        <AccordionSummary
-                          expandIcon={<ExpandMoreIcon  color="disabled"/>}
-                          aria-controls="panel1bh-content"
-                          id="panel1bh-header"
-                          align="left"
-                          backgroundColor="black"
-                          classes={{root: classes.summary}}
-                        >
-                          <div className={classes.column}>
-                            <Typography className={classes.heading}>{site.site}</Typography>
-                          </div>
-                          <div className={classes.column}>
-                            <Typography className={classes.secondaryHeading}>From {site.start} to {site.end}</Typography>
-                          </div>
-                        </AccordionSummary>
-                        <AccordionDetails>
-                          <TableContainer>
-                            <Table aria-label="simple table">
-                              <TableBody>
-                                <TableRow>
-                                  <TableCell component="th" scope="row"><b>Location</b></TableCell>
-                                  <TableCell align="left">{site.location}</TableCell>
-                                </TableRow>
-                                <TableRow>
-                                  <TableCell component="th" scope="row"><b>Description</b></TableCell>
-                                  <TableCell align="left">{site.description}</TableCell>
-                                </TableRow>
-                                <TableRow>
-                                  <TableCell component="th" scope="row"><b>Bibliography</b></TableCell>
-                                  <TableCell align="left">{bibliography}</TableCell>
-                                </TableRow>
-                              </TableBody>
-                            </Table>
-                          </TableContainer>
-                        </AccordionDetails>
-                      </Accordion>
-                    </Grid>
-                  );
-                })
-              }
-              <Grid item xs={12} >
-                <Pagination count={Math.ceil(filteredSites.length / itemsPerPage)} variant="outlined" shape="rounded" onChange={handlePageChange} />
-              </Grid>
-            </Grid>
-          </React.Fragment>
-        );
+            </React.Fragment>
+          );
+        }
     }
 
     return(

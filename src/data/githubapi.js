@@ -15,7 +15,9 @@ export default class GithubAPi {
               ref: this.branch
             },
             function(err, result) {
-              if (err) return callback(err);
+              if (err)
+                return callback(err);
+                
               callback(err, {
                 name: name,
                 sha: result.sha,
