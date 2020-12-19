@@ -1,5 +1,3 @@
-import Octokat from "octokat";
-
 export default class GithubAPi {
     constructor(username, repo, branch) {
       this.username = username;
@@ -8,23 +6,18 @@ export default class GithubAPi {
     }
   
     get(name, callback) {
-        var currentRepo = new Octokat().repos(this.username, this.repo);
-        if (name.indexOf(".json") !== -1) {
-            currentRepo.contents(name).fetch(
-            {
-              ref: this.branch
-            },
-            function(err, result) {
-              if (err)
-                return callback(err);
-                
-              callback(err, {
-                name: name,
-                sha: result.sha,
-                content: JSON.parse(atob(result.content))
-              });
-            }
-          );
+      if (name.indexOf(".json") !== -1) {
+          fetch('https://raw.githubusercontent.com/'+this.username+'/'+this.repo+'/'+this.branch+'/'+name)
+          .then(response => response.json())
+          .then((data) => {
+            callback(undefined, {
+              name: name,
+              content: data
+            });
+          },
+          (error) => {
+            return callback(error, undefined);
+          })
         } else {
           return callback("File type not supported.");
         }

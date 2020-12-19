@@ -167,7 +167,7 @@ const Data = (props) => {
               <React.Fragment>
                 <Grid container spacing={1} justify="center"  >
                   <Grid item xs={12}>
-                    <h1>Uh oh, looks like you may have reached your rate limit, please try again later...</h1>
+                    <h1>Uh oh, Something went wrong...</h1>
                     <hr/>
                   </Grid>
                 </Grid>
