@@ -9,6 +9,10 @@ import AccordionSummary from '@material-ui/core/AccordionSummary';
 import AccordionDetails from '@material-ui/core/AccordionDetails';
 import { Grid, Typography } from '@material-ui/core';
 import Pagination from '@material-ui/lab/Pagination';
+import InputLabel from "@material-ui/core/InputLabel";
+import MenuItem from "@material-ui/core/MenuItem";
+import FormControl from "@material-ui/core/FormControl";
+import Select from "@material-ui/core/Select";
 
 import TableContainer from "@material-ui/core/TableContainer";
 import TableRow from "@material-ui/core/TableRow";
@@ -35,6 +39,9 @@ const useStyles = makeStyles((theme) => ({
     },
     column: {
       flexBasis: '20.33%',
+    },
+    formControl: {
+      minWidth: 120
     }
   }));
 
@@ -50,9 +57,10 @@ const Data = (props) => {
     const handlePageChange = (event, value) => {
       setActivePage(value);
       renderSite();
-      let start = ((currentActivePage - 1) * (itemsPerPage + 1));
-      let end = (currentActivePage * itemsPerPage);
-      console.log(`active page is ${currentActivePage} start: ${start} end: ${end}`);
+    }
+
+    const handleItemsPerPage = (event) => {
+      setItemsPerPage(event.target.value);
     }
 
     function loadDbFileGithub() {
@@ -140,7 +148,7 @@ const Data = (props) => {
     function renderSite() {
         return (
           <React.Fragment>
-            <Grid container spacing={1} justify="center" >
+            <Grid container spacing={1} justify="center"  >
               <Grid item xs={12}>
                 <h1> {filteredSites.length} Sites found...</h1>
                 <hr/>
@@ -149,14 +157,29 @@ const Data = (props) => {
                 <Button color="inherit"  onClick={() => {orderDate(!orderByEarliest)}} endIcon={orderByEarliest ? <KeyboardArrowDown /> : <KeyboardArrowUp /> }>Filter by date</Button>
               </Grid>
               <Grid item xs={3}>
-                <Button color="inherit">Results per page</Button>
+              <FormControl variant="outlined" className={classes.formControl}>
+                <InputLabel id="demo-simple-select-outlined-label">
+                  Items per page
+                </InputLabel>
+                <Select
+                  labelId="demo-simple-select-outlined-label"
+                  id="demo-simple-select-outlined"
+                  value={itemsPerPage}
+                  onChange={handleItemsPerPage}
+                  label="Items"
+                >
+                  <MenuItem value={10}>10</MenuItem>
+                  <MenuItem value={20}>20</MenuItem>
+                  <MenuItem value={30}>30</MenuItem>
+                </Select>
+              </FormControl>
               </Grid>
               <Grid item xs={3}>
                 <Button color="inherit"  onClick={() => {orderDate(downloadJson)}} endIcon={<CloudDownload />}>Download results</Button>
               </Grid>
               {
                 
-                filteredSites.slice(((currentActivePage - 1) * (itemsPerPage + 1)), (currentActivePage * itemsPerPage)).map(site => {
+                filteredSites.slice(((currentActivePage - 1) * (itemsPerPage)), (currentActivePage * itemsPerPage)).map(site => {
                   let bibliography = site.bibliography && site.bibliography.length > 0 ? site.bibliography.join(", ") : null;
                   return(
                     <Grid item xs={12}>
@@ -201,7 +224,7 @@ const Data = (props) => {
                   );
                 })
               }
-              <Grid item xs={12}>
+              <Grid item xs={12} >
                 <Pagination count={Math.ceil(filteredSites.length / itemsPerPage)} variant="outlined" shape="rounded" onChange={handlePageChange} />
               </Grid>
             </Grid>
@@ -214,7 +237,6 @@ const Data = (props) => {
             {config !== null && config !== undefined ? (renderSite(config)) : (
             <React.Fragment>
                 {loadDbFileGithub()}
-                
             </React.Fragment>
             )}
       </div>
