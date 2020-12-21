@@ -29,7 +29,8 @@ const useStyles = makeStyles((theme) => ({
   },
   content: {
     flex: '1',
-    width: '60%'
+    width: '60%',
+    minWidth: '380px'
   },
   footer: {
     width: '100%',

@@ -38,7 +38,7 @@ const useStyles = makeStyles((theme) => ({
       color: 'white',
     },
     column: {
-      flexBasis: '20.33%',
+      flexBasis: '50.33%',
     },
     formControl: {
       minWidth: 120
@@ -219,7 +219,6 @@ const Data = (props) => {
                   <Button color="inherit"  onClick={() => {orderDate(downloadJson)}} endIcon={<CloudDownload />}>Download results</Button>
                 </Grid>
                 {
-                  
                   filteredSites.slice(((currentActivePage - 1) * (itemsPerPage)), (currentActivePage * itemsPerPage)).map(site => {
                     let bibliography = site.bibliography && site.bibliography.length > 0 ? site.bibliography.join(", ") : null;
                     return(
