@@ -62,9 +62,6 @@ function RouterHack()
     let location = (window.location + '').split("/")[4]  + (window.location + '').split("/")[5];
     let search = window.location.search;
     let params = new URLSearchParams(search);
-
-    console.log("Test: " + location);
-
     if(location == "" || location == "undefined")
     {
       return(
@@ -79,7 +76,7 @@ function RouterHack()
               <Search></Search>
             </Grid>
             <Grid item xs={10}>
-              <SimpleCard title="Updates" text="Here go the Github latest commits to the dataset"></SimpleCard>
+              <SimpleCard title="Updates"></SimpleCard>
             </Grid>
           </Grid>
         </React.Fragment>
