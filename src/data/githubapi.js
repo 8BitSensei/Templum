@@ -26,7 +26,7 @@ export default class GithubAPi {
     getUpdates(name, callback)
     {
       if (name.indexOf(".json") !== -1) {
-        fetch('http://api.github.com/repos/'+this.username+'/'+this.repo+'/commits?path='+name)
+        fetch('https://api.github.com/repos/'+this.username+'/'+this.repo+'/commits?path='+name)
         .then(response => response.json())
         .then((data) => {
           callback(undefined, {
