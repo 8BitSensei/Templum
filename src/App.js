@@ -72,7 +72,7 @@ function RouterHack()
           <Grid container spacing={6} justify="space-evenly">
             <Grid item xs={10}>
               <h1>Welcome to RitualHub</h1>
-              <p>Welcome to RitualHub, an open-source project to provide a website to explore a public dataset of Ritual Sites in Britain & Ireland. Please use the search functionality freely, and if you see a mistake or would like to add data or functionality, please go to ‘Contribute’ to see how you can help further the project.</p>
+              <p>Welcome to RitualHub, an open-source project to provide a website to explore a public dataset of Ritual Sites in Britain & Ireland. Please use the search functionality freely. If you see a mistake or would like to add data or functionality, please go to ‘Contribute’ to see how you can help further the project.</p>
               <hr/>
             </Grid>
             <Grid item xs={10}>
