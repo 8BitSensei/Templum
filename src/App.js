@@ -9,6 +9,8 @@ import React from 'react';
 import Data from "./data/data";
 import Search from "./search/search";
 import SimpleCard from "./simpleCard/simpleCard";
+import About from "./about/about";
+import Edit from "./edit/edit";
 
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
@@ -67,10 +69,10 @@ function RouterHack()
     {
       return(
         <React.Fragment>
-          <Grid container spacing={6} justify="center">
+          <Grid container spacing={6} justify="space-evenly">
             <Grid item xs={10}>
               <h1>Welcome to RitualHub</h1>
-              <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. In pellentesque elementum lorem sed eleifend. Proin ornare, velit eget feugiat suscipit, justo metus auctor urna, quis egestas odio purus eget tortor. Nulla nec consequat dui, sed pretium erat. Vivamus sagittis leo eu velit maximus aliquam. Maecenas convallis, urna sed ultrices efficitur, massa felis consectetur nulla, sed gravida velit diam et dolor. Proin ac turpis at dui faucibus convallis. Maecenas condimentum sem ac consectetur fringilla. Morbi dapibus mauris ultrices odio sodales feugiat.</p>
+              <p>Welcome to RitualHub, an open-source project to provide a website to explore a public dataset of Ritual Sites in Britain & Ireland. Please use the search functionality freely, and if you see a mistake or would like to add data or functionality, please go to ‘Contribute’ to see how you can help further the project.</p>
               <hr/>
             </Grid>
             <Grid item xs={10}>
@@ -85,11 +87,11 @@ function RouterHack()
     }
     else if(location == "?about")
     {
-      return(<p>About</p>);
+      return(<About></About>);
     }
     else if(location == "?edit")
     {
-      return(<p>Edit</p>);
+      return(<Edit></Edit>);
     }
     else
     {
