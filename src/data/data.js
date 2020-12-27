@@ -160,6 +160,11 @@ const Data = (props) => {
       document.body.removeChild(element);
     }
 
+    function newlineText(text) {
+      if(text != null)
+        return text.split('\n').map(str => <p>{str}</p>);
+    }
+
     function renderSite() {
         if(filteredSites.length == 0)
         {
@@ -222,7 +227,8 @@ const Data = (props) => {
                 </Grid>
                 {
                   filteredSites.slice(((currentActivePage - 1) * (itemsPerPage)), (currentActivePage * itemsPerPage)).map(site => {
-                    let bibliography = site.bibliography && site.bibliography.length > 0 ? site.bibliography.join(", ") : null;
+                    let bibliography = site.bibliography && site.bibliography.length > 0 ? site.bibliography.join("\n") : null;
+                    console.log("Bib: " + bibliography);
                     return(
                       <Grid item xs={12}>
                         <Accordion  classes={classes.accordion}>
@@ -255,7 +261,7 @@ const Data = (props) => {
                                   </TableRow>
                                   <TableRow>
                                     <TableCell component="th" scope="row"><b>Bibliography</b></TableCell>
-                                    <TableCell align="left">{bibliography}</TableCell>
+                                    <TableCell align="left">{newlineText(bibliography)}</TableCell>
                                   </TableRow>
                                 </TableBody>
                               </Table>
