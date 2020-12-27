@@ -47,6 +47,9 @@ const useStyles = makeStyles((theme) => ({
     formControl: {
       minWidth: 70
     },
+    dataTable: {
+      tableLayout: 'fixed'
+    }
   }));
 
 const Data = (props) => {
@@ -249,10 +252,10 @@ const Data = (props) => {
                           </AccordionSummary>
                           <AccordionDetails>
                             <TableContainer>
-                              <Table aria-label="simple table">
+                              <Table aria-label="simple table" className={classes.dataTable}>
                                 <TableBody>
                                   <TableRow>
-                                    <TableCell component="th" scope="row"><b>Location</b></TableCell>
+                                    <TableCell component="th" scope="row" width="80px"><b>Location</b></TableCell>
                                     <TableCell align="left">{site.location}</TableCell>
                                   </TableRow>
                                   <TableRow>
