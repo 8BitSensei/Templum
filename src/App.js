@@ -52,10 +52,10 @@ const useStyles = makeStyles((theme) => ({
   title: {
     flexGrow: 0,
     display: 'none',
-    paddingRight: '20px',
     [theme.breakpoints.up('sm')]: {
       display: 'block'
-    }
+    },
+    fontSize: '25px'
   }
 }));
 
@@ -69,16 +69,16 @@ function RouterHack()
     {
       return(
         <React.Fragment>
-          <Grid container spacing={6} justify="space-evenly">
-            <Grid item xs={10}>
+          <Grid container spacing={6} justify="center">
+            <Grid item xs={12}>
               <h1>Welcome to RitualHub</h1>
               <p>Welcome to RitualHub, an open-source project to provide a website to explore a public dataset of Ritual Sites in Britain & Ireland. Please use the search functionality freely. If you see a mistake or would like to add data or functionality, please go to ‘Contribute’ to see how you can help further the project.</p>
               <hr/>
             </Grid>
-            <Grid item xs={10}>
+            <Grid item xs={12}>
               <Search></Search>
             </Grid>
-            <Grid item xs={10}>
+            <Grid item xs={12}>
               <SimpleCard title="Updates"></SimpleCard>
             </Grid>
           </Grid>
@@ -105,9 +105,9 @@ function App() {
     <div className="App">
       <AppBar position="static" color="secondary" >
         <Toolbar>
-          <Typography className={classes.title} variant="h4" href='/'>
+          <Button color="inherit" className={classes.title} href={process.env.PUBLIC_URL + "/"} style={{textTransform: 'none'}}>
             RitualHub
-          </Typography>
+          </Button>
           <Button color="inherit" startIcon={<SearchIcon />} href={process.env.PUBLIC_URL + "/"}>Search</Button>
           <Button color="inherit" startIcon={<InfoIcon />} href={process.env.PUBLIC_URL + "/?/about"}>About</Button>
           <Button color="inherit" startIcon={<CodeIcon />} href={process.env.PUBLIC_URL + "/?/edit"}>Contribute</Button>

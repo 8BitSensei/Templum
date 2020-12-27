@@ -23,7 +23,7 @@ const Search = () => {
         <Grid container spacing={1} justify="center">
           <Grid item xs={10} className={classes.field}>
               <TextField 
-                label="Site"
+                label="Site contains"
                 id="filled-secondary"
                 name="site"
                 variant="filled"
@@ -33,7 +33,7 @@ const Search = () => {
           <Grid item xs={10}>
             <div className={classes.field}>
               <TextField
-                label="Location"
+                label="Location contains"
                 id="filled-secondary"
                 name="location"
                 variant="filled"
@@ -56,9 +56,9 @@ const Search = () => {
           <Grid item xs={5}>
             <div className={classes.field}>
               <TextField
-                label="Start (e.g -50)"
+                label="End (e.g -50)"
                 id="filled-secondary"
-                name="start"
+                name="end"
                 type="number"
                 variant="filled"
                 color="secondary"

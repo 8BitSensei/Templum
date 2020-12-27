@@ -10,7 +10,7 @@ import GithubApi from "../data/githubapi.js";
 
 const useStyles = makeStyles((theme) => ({
     root: {
-      minWidth: 275,
+      width: '75%'
     },
     title: {
       fontSize: 14,
@@ -24,6 +24,7 @@ const useStyles = makeStyles((theme) => ({
     large: {
       width: theme.spacing(7),
       height: theme.spacing(7),
+      marginRight: '10px'
     }
 }));
 
@@ -67,25 +68,29 @@ const SimpleCard = (props) => {
     }
 
     return(
-        <Card className={classes.root}>
-            <CardHeader className={classes.title} title={props.title}>
-            </CardHeader>
-            <CardContent>
-              <Grid container spacing={2} align="left" justify="center">
-                <Grid item xs={2}>
-                  <Avatar aria-label="icon" src={avatar} className={classes.large}>
-                  </Avatar>
-                </Grid>
-                <Grid item xs={10}>
-                  <Typography variant="body1" color="secondary">
-                      <b>{author}</b> (<a href={url} target="_blank">{sha}</a>) {update}
-                      <br/>
-                      {commitDate}
-                  </Typography>
-                </Grid>
-              </Grid>
-            </CardContent>
-        </Card>
+      <Grid container spacing={0} direction="row" align="left" justify="center">
+          <Card className={classes.root}>
+              <CardHeader className={classes.title} title={props.title}>
+              </CardHeader>
+              <CardContent>
+                
+                    <div style={{
+                      display: 'flex',
+                      alignItems: 'center',
+                      flexWrap: 'wrap'
+                    }}>
+                      <Avatar aria-label="icon" src={avatar} className={classes.large}>
+                      </Avatar>
+                      <Typography variant="body1" color="secondary" padding-left="20px">
+                          <b>{author}</b> (<a href={url} target="_blank">{sha}</a>) {update}
+                          <br/>
+                          {commitDate}
+                      </Typography>
+                    </div>
+                  
+              </CardContent>
+          </Card>
+      </Grid>
     );
 }
 

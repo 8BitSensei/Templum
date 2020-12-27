@@ -85,7 +85,7 @@ const Data = (props) => {
               sites: []
             };
           }
-    
+
           let newConfig = {
             path: db_name,
             data: res.content
@@ -105,9 +105,7 @@ const Data = (props) => {
       let start = params.get('start');
       let end = params.get('end');
       let location = params.get('location');
-      
       let orderedSites = [];
-
       if(orderByEarliest)
         orderedSites =  newConfig.data.sites && newConfig.data.sites.length > 0 ? newConfig.data.sites.sort((a, b,) => a.start - b.start) : [];
       else 
@@ -129,7 +127,7 @@ const Data = (props) => {
           return false;
         }
   
-        if(location != null && location !== "" && !(String(value.location).includes(String(site))))
+        if(location != null && location !== "" && !(String(value.location).includes(String(location))))
         {
           return false;
         }
