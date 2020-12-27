@@ -1,4 +1,3 @@
-import Sample from "./sample.json";
 import React from "react";
 import GithubApi from "./githubapi.js";
 
@@ -40,9 +39,14 @@ const useStyles = makeStyles((theme) => ({
     column: {
       flexBasis: '50.33%',
     },
+    accordion: {
+      "& .MuiExpansionPanelSummary-expandIcon": {
+        color: "white"
+      }
+    },
     formControl: {
-      minWidth: 120
-    }
+      minWidth: 70
+    },
   }));
 
 const Data = (props) => {
@@ -112,7 +116,7 @@ const Data = (props) => {
         orderedSites =  newConfig.data.sites && newConfig.data.sites.length > 0 ? newConfig.data.sites.sort((a, b,) => b.start - a.start) : [];
       
       let filteredSites = newConfig.data.sites && newConfig.data.sites.length > 0 ? orderedSites.filter(function(value){
-        if(site != null && site !== "" && !(String(value.site).includes(String(site))))
+        if(site != null && site !== "" && !(String(value.site.toLowerCase()).includes(String(site.toLowerCase()))))
         {
           return false;
         }
@@ -127,7 +131,7 @@ const Data = (props) => {
           return false;
         }
   
-        if(location != null && location !== "" && !(String(value.location).includes(String(location))))
+        if(location != null && location !== "" && !(String(value.location.toLowerCase()).includes(String(location.toLowerCase()))))
         {
           return false;
         }
@@ -221,9 +225,9 @@ const Data = (props) => {
                     let bibliography = site.bibliography && site.bibliography.length > 0 ? site.bibliography.join(", ") : null;
                     return(
                       <Grid item xs={12}>
-                        <Accordion>
+                        <Accordion  classes={classes.accordion}>
                           <AccordionSummary
-                            expandIcon={<ExpandMoreIcon  color="disabled"/>}
+                            expandIcon={<ExpandMoreIcon/>}
                             aria-controls="panel1bh-content"
                             id="panel1bh-header"
                             align="left"
