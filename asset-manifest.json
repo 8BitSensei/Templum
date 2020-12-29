@@ -1,8 +1,8 @@
 {
   "files": {
     "main.css": "/RitualHub/static/css/main.fdb725f8.chunk.css",
-    "main.js": "/RitualHub/static/js/main.00ced796.chunk.js",
-    "main.js.map": "/RitualHub/static/js/main.00ced796.chunk.js.map",
+    "main.js": "/RitualHub/static/js/main.c93ed56d.chunk.js",
+    "main.js.map": "/RitualHub/static/js/main.c93ed56d.chunk.js.map",
     "runtime-main.js": "/RitualHub/static/js/runtime-main.ea9cb344.js",
     "runtime-main.js.map": "/RitualHub/static/js/runtime-main.ea9cb344.js.map",
     "static/js/2.4595e99b.chunk.js": "/RitualHub/static/js/2.4595e99b.chunk.js",
@@ -17,6 +17,6 @@
     "static/js/runtime-main.ea9cb344.js",
     "static/js/2.4595e99b.chunk.js",
     "static/css/main.fdb725f8.chunk.css",
-    "static/js/main.00ced796.chunk.js"
+    "static/js/main.c93ed56d.chunk.js"
   ]
 }
