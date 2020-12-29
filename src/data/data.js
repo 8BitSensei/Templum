@@ -58,7 +58,7 @@ const Data = (props) => {
     const [orderByEarliest, setOrderByEarliest] = React.useState(false);
     const [currentActivePage, setActivePage] = React.useState(1);
     const [itemsPerPage, setItemsPerPage] = React.useState(10);
-    const db_name = "RitualSites/ritualSites.json";
+    const db_name = "sites/ritualSites.json";
     const classes = useStyles();
     
     const handlePageChange = (event, value) => {
