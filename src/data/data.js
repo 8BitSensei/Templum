@@ -109,8 +109,8 @@ const Data = (props) => {
     {
       let params = props.query;
       let site = params.get('site');
-      let start = params.get('start');
-      let end = params.get('end');
+      let start = parseInt(params.get('start'));
+      let end = parseInt(params.get('end'));
       let location = params.get('location');
       let orderedSites = [];
       if(orderByEarliest)
@@ -124,12 +124,14 @@ const Data = (props) => {
           return false;
         }
   
-        if(start != null && start !== "" && !(value.start >= Number(start)))
+        value.start = parseInt(value.start);
+        value.end = parseInt(value.end);
+        if((!isNaN(start) || !isNaN(end)) && (isNaN(value.start) || isNaN(value.end)))
         {
           return false;
         }
-  
-        if( end != null && end !== "" && !(value.end <= Number(end)))
+
+        if((value.start > Number(end)) || (value.end < Number(start)))
         {
           return false;
         }
@@ -231,7 +233,6 @@ const Data = (props) => {
                 {
                   filteredSites.slice(((currentActivePage - 1) * (itemsPerPage)), (currentActivePage * itemsPerPage)).map(site => {
                     let bibliography = site.bibliography && site.bibliography.length > 0 ? site.bibliography.join("\n") : null;
-                    console.log("Bib: " + bibliography);
                     return(
                       <Grid item xs={12}>
                         <Accordion  classes={classes.accordion}>
