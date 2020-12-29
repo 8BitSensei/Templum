@@ -41,7 +41,7 @@ const SimpleCard = (props) => {
     loadUpdates();
 
     function loadUpdates() {
-      var githubApi = new GithubApi("8BitSensei", "Datasets", "master");
+      var githubApi = new GithubApi("8BitSensei", "RitualHub-Dataset", "master");
       githubApi.getUpdates("RitualSites/ritualSites.json", (err, res) => {
         if(err){
           console.log(err);

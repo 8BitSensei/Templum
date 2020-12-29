@@ -71,7 +71,7 @@ const Data = (props) => {
     }
 
     function loadDbFileGithub() {
-      var githubApi = new GithubApi("8BitSensei", "Datasets", "master");
+      var githubApi = new GithubApi("8BitSensei", "RitualHub-Dataset", "master");
       githubApi.get(db_name, (err, res) => {
         if(err)
         {
