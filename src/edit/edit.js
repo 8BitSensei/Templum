@@ -39,7 +39,7 @@ const Edit = (props) => {
         <Typography className={classes.body}>
             An excellent practical guide on how to make a contribution to an open-source project is available <a href="https://github.com/firstcontributions/first-contributions">here</a>.
             <br/>
-            The RitualHub dataset is available <a href="https://github.com/8BitSensei/Datasets">here</a> and the RitualHub Website <a href="https://github.com/8BitSensei/RitualHub">here</a>.
+            The RitualHub dataset is available <a href="https://github.com/8BitSensei/RitualHub-Dataset">here</a> and the RitualHub Website <a href="https://github.com/8BitSensei/RitualHub">here</a>.
         </Typography>
         <Typography className={classes.heading}>
             <h1>Format</h1>
