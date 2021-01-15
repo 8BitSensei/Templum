@@ -35,7 +35,7 @@ const About = (props) => {
             Scope for entries into the project are currently:
             <ol>
                 <li class={classes.listItem}>Entries should have an identifiable location within the boundaries of the islands of Britain & Ireland including off-shore islands.</li>
-                <li class={classes.listItem}>The time-frame for entries should be kept within the earliest Iron Age to the Early Medieval period for Britain & Ireland, that is roughly 800BCE to 800CE. The ritual activity at the site should fall within this time frame, not necessarily the construction or even the primary use of the site.</li>
+                <li class={classes.listItem}>The time-frame for entries should be kept within the Late Iron Age to Late Antiquity for Britain & Ireland, that is roughly 150BCE to 600CE. The ritual activity at the site should fall within this time frame, not necessarily the construction or even the primary use of the site.</li>
                 <li class={classes.listItem}>Sites should show some evidence for ritual use, without getting bogged down in defining ritual. This can include religious, political, or cultural ceremonial activity in public or private at any strata of society. Evidence for ritual at a site can be archaeological, literary, epigraphic, or topographic, but this should be made clear in the entry.</li>
                 <li class={classes.listItem}>An entry should provide at least the common name for the site, the location, the date range of use, a description, and a bibliography. To see further details on the entry format go here.</li>
             </ol> 
