@@ -1,22 +1,22 @@
 {
   "files": {
     "main.css": "/RitualHub/static/css/main.fdb725f8.chunk.css",
-    "main.js": "/RitualHub/static/js/main.1b243eb0.chunk.js",
-    "main.js.map": "/RitualHub/static/js/main.1b243eb0.chunk.js.map",
-    "runtime-main.js": "/RitualHub/static/js/runtime-main.ea9cb344.js",
-    "runtime-main.js.map": "/RitualHub/static/js/runtime-main.ea9cb344.js.map",
-    "static/js/2.4595e99b.chunk.js": "/RitualHub/static/js/2.4595e99b.chunk.js",
-    "static/js/2.4595e99b.chunk.js.map": "/RitualHub/static/js/2.4595e99b.chunk.js.map",
-    "static/js/3.35a7393b.chunk.js": "/RitualHub/static/js/3.35a7393b.chunk.js",
-    "static/js/3.35a7393b.chunk.js.map": "/RitualHub/static/js/3.35a7393b.chunk.js.map",
+    "main.js": "/RitualHub/static/js/main.4fe62598.chunk.js",
+    "main.js.map": "/RitualHub/static/js/main.4fe62598.chunk.js.map",
+    "runtime-main.js": "/RitualHub/static/js/runtime-main.f40aaf57.js",
+    "runtime-main.js.map": "/RitualHub/static/js/runtime-main.f40aaf57.js.map",
+    "static/js/2.f2311d6c.chunk.js": "/RitualHub/static/js/2.f2311d6c.chunk.js",
+    "static/js/2.f2311d6c.chunk.js.map": "/RitualHub/static/js/2.f2311d6c.chunk.js.map",
+    "static/js/3.02d99940.chunk.js": "/RitualHub/static/js/3.02d99940.chunk.js",
+    "static/js/3.02d99940.chunk.js.map": "/RitualHub/static/js/3.02d99940.chunk.js.map",
     "index.html": "/RitualHub/index.html",
     "static/css/main.fdb725f8.chunk.css.map": "/RitualHub/static/css/main.fdb725f8.chunk.css.map",
-    "static/js/2.4595e99b.chunk.js.LICENSE.txt": "/RitualHub/static/js/2.4595e99b.chunk.js.LICENSE.txt"
+    "static/js/2.f2311d6c.chunk.js.LICENSE.txt": "/RitualHub/static/js/2.f2311d6c.chunk.js.LICENSE.txt"
   },
   "entrypoints": [
-    "static/js/runtime-main.ea9cb344.js",
-    "static/js/2.4595e99b.chunk.js",
+    "static/js/runtime-main.f40aaf57.js",
+    "static/js/2.f2311d6c.chunk.js",
     "static/css/main.fdb725f8.chunk.css",
-    "static/js/main.1b243eb0.chunk.js"
+    "static/js/main.4fe62598.chunk.js"
   ]
 }
