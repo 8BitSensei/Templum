@@ -126,10 +126,12 @@ const Data = (props) => {
   function filterEngine(newConfig) {
     let params = props.query;
     let site = params.get('site');
-    let start = parseInt(params.get('start'));
+    let start = params.get('start');
     let end = parseInt(params.get('end'));
     let location = params.get('location');
     let index = params.get('index');
+    var dateKeys = Object.keys(newConfig.data.dates);
+    var dateValues = Object.values(newConfig.data.dates);
 
     let orderedSites = [];
     if (orderByEarliest)
@@ -142,21 +144,35 @@ const Data = (props) => {
         return false;
       }
 
-      value.start = parseInt(value.start);
-      value.end = parseInt(value.end);
-      if ((!isNaN(start) || !isNaN(end)) && (isNaN(value.start) || isNaN(value.end))) {
-        return false;
+      let tmpStart = value.start;
+      let tmpEnd = value.end;
+      var startCheck = dateKeys.indexOf(tmpStart)
+      if (startCheck != -1) {
+        tmpStart = parseInt(dateValues[startCheck]);
+      }
+      else {
+        tmpStart = parseInt(tmpStart);
       }
 
-      if ((value.start > Number(end)) || (value.end < Number(start))) {
+      var endCheck = dateKeys.indexOf(tmpEnd)
+      if (endCheck != -1) {
+        tmpEnd = parseInt(dateValues[endCheck]);
+      }
+      else {
+        tmpEnd = parseInt(tmpEnd);
+      }
+      if ((tmpStart > Number(end)) || (tmpEnd < Number(start))) {
+        console.log("failure 2");
         return false;
       }
 
       if (location != null && location !== "" && !(String(value.location.toLowerCase()).includes(String(location.toLowerCase())))) {
+        console.log("failure 3");
         return false;
       }
 
-      if(index != null && Number(value.index) != Number(index)){
+      if (index != null && Number(value.index) != Number(index)) {
+        console.log("failure 4");
         return false
       }
 
@@ -260,7 +276,7 @@ const Data = (props) => {
                         classes={{ root: classes.summary }}
                       >
                         <div className={classes.link}>
-                          <IconButton size='small' onClick={() => {handleClickOpen(site.index)}}>
+                          <IconButton size='small' onClick={() => { handleClickOpen(site.index) }}>
                             <LinkIcon color='primary' />
                           </IconButton>
                         </div>
@@ -268,7 +284,7 @@ const Data = (props) => {
                           <Typography className={classes.heading}>{site.site}</Typography>
                         </div>
                         <div className={classes.column}>
-                          <Typography className={classes.secondaryHeading}>From {site.start} to {site.end}</Typography>
+                          <Typography className={classes.secondaryHeading}> From {site.start} to {site.end}</Typography>
                         </div>
                       </AccordionSummary>
                       <AccordionDetails>
