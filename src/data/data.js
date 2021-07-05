@@ -42,9 +42,9 @@ const useStyles = makeStyles((theme) => ({
     padding: '0px 1.5%'
   },
   heading: {
-    fontSize: theme.typography.pxToRem(17),
+    fontSize: theme.typography.pxToRem(18),
     color: 'white',
-    textAlign: 'center'
+    textAlign: 'left'
   },
   secondaryHeading: {
     fontSize: theme.typography.pxToRem(15),
