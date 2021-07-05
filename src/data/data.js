@@ -30,27 +30,32 @@ import LinkIcon from '@material-ui/icons/Link';
 import Dialog from '@material-ui/core/Dialog';
 import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
-import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import TextField from '@material-ui/core/TextField';
 
 const useStyles = makeStyles((theme) => ({
   summary: {
-    backgroundColor: '#343A40'
+    backgroundColor: '#343A40',
+    "& .MuiAccordionSummary-content":{
+      alignItems: "center"
+    },
+    padding: '0px 1.5%'
   },
   heading: {
-    fontSize: theme.typography.pxToRem(18),
-    color: 'white'
+    fontSize: theme.typography.pxToRem(17),
+    color: 'white',
+    textAlign: 'center'
   },
   secondaryHeading: {
     fontSize: theme.typography.pxToRem(15),
     color: 'white',
+    textAlign: 'right'
   },
   column: {
-    flexBasis: '50.33%',
+    flexBasis: '60.33%',
   },
   link: {
-    flexBasis: '5.33%',
+    flexBasis: '8.33%',
   },
   accordion: {
     "& .MuiExpansionPanelSummary-expandIcon": {
@@ -133,13 +138,7 @@ const Data = (props) => {
     var dateKeys = Object.keys(newConfig.data.dates);
     var dateValues = Object.values(newConfig.data.dates);
 
-    let orderedSites = [];
-    if (orderByEarliest)
-      orderedSites = newConfig.data.sites && newConfig.data.sites.length > 0 ? newConfig.data.sites.sort((a, b,) => a.start - b.start) : [];
-    else
-      orderedSites = newConfig.data.sites && newConfig.data.sites.length > 0 ? newConfig.data.sites.sort((a, b,) => b.start - a.start) : [];
-
-    let filteredSites = newConfig.data.sites && newConfig.data.sites.length > 0 ? orderedSites.filter(function (value) {
+    let filteredSites = newConfig.data.sites && newConfig.data.sites.length > 0 ?  newConfig.data.sites.filter(function (value) {
       if (site != null && site !== "" && !(String(value.site.toLowerCase()).includes(String(site.toLowerCase())))) {
         return false;
       }
@@ -149,6 +148,7 @@ const Data = (props) => {
       var startCheck = dateKeys.indexOf(tmpStart)
       if (startCheck != -1) {
         tmpStart = parseInt(dateValues[startCheck]);
+        value.startPlaceholder = dateKeys[startCheck];
       }
       else {
         tmpStart = parseInt(tmpStart);
@@ -157,11 +157,15 @@ const Data = (props) => {
       var endCheck = dateKeys.indexOf(tmpEnd)
       if (endCheck != -1) {
         tmpEnd = parseInt(dateValues[endCheck]);
+        value.endPlaceholder = dateKeys[endCheck];
       }
       else {
         tmpEnd = parseInt(tmpEnd);
       }
-      if ((tmpStart > Number(end)) || (tmpEnd < Number(start))) {
+
+      value.start = tmpStart;
+      value.end = tmpEnd;
+      if ((value.start > Number(end)) || (value.end < Number(start))) {
         console.log("failure 2");
         return false;
       }
@@ -178,6 +182,12 @@ const Data = (props) => {
 
       return true;
     }) : [];
+
+    if (orderByEarliest)
+      filteredSites.sort((a, b,) => a.start - b.start);
+    else
+      filteredSites.sort((a, b,) => b.start - a.start);
+
 
     setFilteredSites(filteredSites);
   }
@@ -272,6 +282,7 @@ const Data = (props) => {
                         aria-controls="panel1bh-content"
                         id="panel1bh-header"
                         align="left"
+                      
                         backgroundColor="black"
                         classes={{ root: classes.summary }}
                       >
@@ -284,7 +295,7 @@ const Data = (props) => {
                           <Typography className={classes.heading}>{site.site}</Typography>
                         </div>
                         <div className={classes.column}>
-                          <Typography className={classes.secondaryHeading}> From {site.start} to {site.end}</Typography>
+                          <Typography className={classes.secondaryHeading}> From { (site.startPlaceholder)? site.startPlaceholder : site.start } to { (site.endPlaceholder)? site.endPlaceholder : site.end }</Typography>
                         </div>
                       </AccordionSummary>
                       <AccordionDetails>
