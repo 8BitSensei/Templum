@@ -50,7 +50,7 @@ const Edit = (props) => {
             <br/>
             <br/>
             <code class={classes.codeBlock}>
-                &#123;"site":"The common name for the site e.g. Maiden Castle",<br/>"start":-50,<br/>"end":123,<br/>"location":"England, Dorset, Dorchester, Maiden Castle Road",<br/>"description":"An appropriate description, ideally a paragraph or two that sums up the sites ritual significance.",<br/>"bibliography":[<br/>"Cleary, S., 2014. The 'end of the gods' in late Roman Britain. Gallia, 71(1).",<br/>"Sharples, N., Ambers, J., Armour-Chelu, M. et al., 1991. Maiden Castle: Excavations And Field Survey 1985-6. 1st ed. Liverpool: Liverpool University Press, Historic England."<br/>]&#125;
+                &#123;"site":"The common name for the site e.g. Maiden Castle",<br/>"start":-50,<br/>"end":123,<br/>"location":"England, Dorset, Dorchester, Maiden Castle Road",<br/>"description":"An appropriate description, ideally a paragraph or two that sums up the sites significance.",<br/>"bibliography":[<br/>"Cleary, S., 2014. The 'end of the gods' in late Roman Britain. Gallia, 71(1).",<br/>"Sharples, N., Ambers, J., Armour-Chelu, M. et al., 1991. Maiden Castle: Excavations And Field Survey 1985-6. 1st ed. Liverpool: Liverpool University Press, Historic England."<br/>]&#125;
             </code>
             <br/>
             Locations should generally follow the format of <code>Country, County, Townland, nearest road if possible</code>. 
