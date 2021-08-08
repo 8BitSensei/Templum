@@ -83,7 +83,7 @@ const Data = (props) => {
 
   const handleClickOpen = (index, site) => {
     setOpen(!open);
-    setLink("https://8bitsensei.github.io/RitualHub/?index=" + index);
+    setLink("https://8bitsensei.github.io/Templum/?index=" + index);
   };
 
   const handlePageChange = (event, value) => {

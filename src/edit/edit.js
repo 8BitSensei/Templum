@@ -30,7 +30,7 @@ const Edit = (props) => {
             <hr/>
         </Typography>
         <Typography className={classes.body}>
-            RitualHub and its accompanying dataset is all open-source, meaning that it is all completely free and accessible to anyone. Being hosted on GitHub anyone can ‘fork’ a copy of the project, and make a change to their local version and commit the change to a ‘Pull Request’ (PR). The PR is then reviewed, and if approved is merged into the ‘master’ project.
+            RituaTemplumlHub and its accompanying dataset is all open-source, meaning that it is all completely free and accessible to anyone. Being hosted on GitHub anyone can ‘fork’ a copy of the project, and make a change to their local version and commit the change to a ‘Pull Request’ (PR). The PR is then reviewed, and if approved is merged into the ‘master’ project.
         </Typography>
         <Typography className={classes.heading}>
             <h1>How to</h1>
@@ -39,14 +39,14 @@ const Edit = (props) => {
         <Typography className={classes.body}>
             An excellent practical guide on how to make a contribution to an open-source project is available <a href="https://github.com/firstcontributions/first-contributions">here</a>.
             <br/>
-            The RitualHub dataset is available <a href="https://github.com/8BitSensei/RitualHub-Dataset">here</a> and the RitualHub Website <a href="https://github.com/8BitSensei/RitualHub">here</a>.
+            The Templum dataset is available <a href="https://github.com/8BitSensei/RitualHub-Dataset">here</a> and the Templum Website <a href="https://github.com/8BitSensei/Templum">here</a>.
         </Typography>
         <Typography className={classes.heading}>
             <h1>Format</h1>
             <hr/>
         </Typography>
         <Typography className={classes.body}>
-            Entries into the RitualHub dataset must be made in the <code>"sites": []</code> array and keep to the following format:
+            Entries into the Templum dataset must be made in the <code>"sites": []</code> array and keep to the following format:
             <br/>
             <br/>
             <code class={classes.codeBlock}>

@@ -71,8 +71,8 @@ function RouterHack()
         <React.Fragment>
           <Grid container spacing={6} justify="center">
             <Grid item xs={12}>
-              <h1>Welcome to RitualHub</h1>
-              <p>Welcome to RitualHub, an open-source project to provide a website to explore a public dataset of Ritual Sites in Britain & Ireland. Please use the search functionality freely. If you see a mistake or would like to add data or functionality, please go to ‘Contribute’ to see how you can help further the project.</p>
+              <h1>Temples of Britain & Ireland</h1>
+              <p>Welcome to Templum, an open-source project to provide a website to explore a public dataset of Ritual Sites in Britain & Ireland. Please use the search functionality freely. If you see a mistake or would like to add data or functionality, please go to ‘Contribute’ to see how you can help further the project.</p>
               <hr/>
             </Grid>
             <Grid item xs={12}>
@@ -106,7 +106,7 @@ function App() {
       <AppBar position="static" color="secondary" >
         <Toolbar>
           <Button color="inherit" className={classes.title} href={process.env.PUBLIC_URL + "/"} style={{textTransform: 'none'}}>
-            RitualHub
+            Templum
           </Button>
           <Button color="inherit" startIcon={<SearchIcon />} href={process.env.PUBLIC_URL + "/"}>Search</Button>
           <Button color="inherit" startIcon={<InfoIcon />} href={process.env.PUBLIC_URL + "/?/about"}>About</Button>
@@ -124,7 +124,7 @@ function App() {
           </div>
           <footer className={classes.footer}>
             <hr className={classes.introBorder}/>
-            <Button className={classes.footerButton} color="inherit" startIcon={<ProblemIcon />} href="https://github.com/8BitSensei/RitualHub/issues/new">Report a problem</Button>
+            <Button className={classes.footerButton} color="inherit" startIcon={<ProblemIcon />} href="https://github.com/8BitSensei/Templum/issues/new">Report a problem</Button>
             <a className={classes.footerText} rel="license" href="http://creativecommons.org/licenses/by-nc/4.0/"><img alt="Creative Commons License" style={{borderWidth:'0'}} src="https://i.creativecommons.org/l/by-nc/4.0/88x31.png" /></a><br />
         </footer>
         </div>
