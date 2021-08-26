@@ -166,17 +166,14 @@ const Data = (props) => {
       value.start = tmpStart;
       value.end = tmpEnd;
       if ((value.start > Number(end)) || (value.end < Number(start))) {
-        console.log("failure 2");
         return false;
       }
 
       if (location != null && location !== "" && !(String(value.location.toLowerCase()).includes(String(location.toLowerCase())))) {
-        console.log("failure 3");
         return false;
       }
 
       if (index != null && Number(value.index) != Number(index)) {
-        console.log("failure 4");
         return false
       }
 
