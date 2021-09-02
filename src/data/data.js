@@ -74,6 +74,7 @@ const Data = (props) => {
   const [config, setConfig] = React.useState(undefined);
   const [filteredSites, setFilteredSites] = React.useState([]);
   const [orderByEarliest, setOrderByEarliest] = React.useState(true);
+  const [sortByStart, setSortByStart] = React.useState(true);
   const [currentActivePage, setActivePage] = React.useState(1);
   const [itemsPerPage, setItemsPerPage] = React.useState(10);
   const db_name = "sites/ritualSites.json";
@@ -180,18 +181,37 @@ const Data = (props) => {
       return true;
     }) : [];
 
+    
+
     var unknownSites = filteredSites.filter(function( obj ) {
-      return (Number.isNaN(obj.start));
+      if(sortByStart)
+        return (Number.isNaN(obj.start));
+      else
+        return (Number.isNaN(obj.end));
     });
 
     filteredSites = filteredSites.filter(function( obj ) {
-      return (!Number.isNaN(obj.end));
+      if(sortByStart)
+        return (!Number.isNaN(obj.start));
+      else
+        return (!Number.isNaN(obj.end));
     });
 
     if (orderByEarliest)
-      filteredSites.sort((a, b,) => parseInt(a.start) - parseInt(b.start));
+    {
+      if(sortByStart)
+        filteredSites.sort((a, b,) => parseInt(a.start) - parseInt(b.start));
+      else
+        filteredSites.sort((a, b,) => parseInt(a.end) - parseInt(b.end));
+    }
     else
-      filteredSites.sort((a, b,) => parseInt(b.start) - parseInt(a.start));
+    {
+      if(sortByStart)
+        filteredSites.sort((a, b,) => parseInt(b.start) - parseInt(a.start));
+      else
+        filteredSites.sort((a, b,) => parseInt(b.end) - parseInt(a.end));
+    }
+      
 
     filteredSites = filteredSites.concat(unknownSites);
     setFilteredSites(filteredSites);
@@ -199,6 +219,12 @@ const Data = (props) => {
 
   function orderDate(orderValue) {
     setOrderByEarliest(orderValue);
+    filterEngine(config);
+    renderSite();
+  }
+
+  function sortDate(orderValue) {
+    setSortByStart(orderValue);
     filterEngine(config);
     renderSite();
   }
@@ -253,7 +279,8 @@ const Data = (props) => {
               <hr />
             </Grid>
             <Grid item xs={3}>
-              <Button color="inherit" onClick={() => { orderDate(!orderByEarliest) }} endIcon={orderByEarliest ? <KeyboardArrowDown /> : <KeyboardArrowUp />}>Filter by date</Button>
+              <Button color="inherit" onClick={() => { orderDate(!orderByEarliest) }} endIcon={orderByEarliest ? <KeyboardArrowDown /> : <KeyboardArrowUp />}>{(orderByEarliest) ? "descending" : "ascending"}</Button>
+              <Button color="inherit" onClick={() => { sortDate(!sortByStart) }} endIcon={sortByStart ? <KeyboardArrowDown /> : <KeyboardArrowUp />}>{(sortByStart) ? "by start" : "by end"}</Button>
             </Grid>
             <Grid item xs={3}>
               <FormControl variant="outlined" className={classes.formControl}>
