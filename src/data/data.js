@@ -73,7 +73,7 @@ const useStyles = makeStyles((theme) => ({
 const Data = (props) => {
   const [config, setConfig] = React.useState(undefined);
   const [filteredSites, setFilteredSites] = React.useState([]);
-  const [orderByEarliest, setOrderByEarliest] = React.useState(false);
+  const [orderByEarliest, setOrderByEarliest] = React.useState(true);
   const [currentActivePage, setActivePage] = React.useState(1);
   const [itemsPerPage, setItemsPerPage] = React.useState(10);
   const db_name = "sites/ritualSites.json";
@@ -180,12 +180,20 @@ const Data = (props) => {
       return true;
     }) : [];
 
+    var unknownSites = filteredSites.filter(function( obj ) {
+      return (Number.isNaN(obj.start));
+    });
+
+    filteredSites = filteredSites.filter(function( obj ) {
+      return (!Number.isNaN(obj.end));
+    });
+
     if (orderByEarliest)
-      filteredSites.sort((a, b,) => a.start - b.start);
+      filteredSites.sort((a, b,) => parseInt(a.start) - parseInt(b.start));
     else
-      filteredSites.sort((a, b,) => b.start - a.start);
+      filteredSites.sort((a, b,) => parseInt(b.start) - parseInt(a.start));
 
-
+    filteredSites = filteredSites.concat(unknownSites);
     setFilteredSites(filteredSites);
   }
 
