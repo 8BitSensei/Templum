@@ -73,7 +73,7 @@ const useStyles = makeStyles((theme) => ({
 const Data = (props) => {
   const [config, setConfig] = React.useState(undefined);
   const [filteredSites, setFilteredSites] = React.useState([]);
-  const [orderByEarliest, setOrderByEarliest] = React.useState(true);
+  const [orderByDescending, setOrderByDescending] = React.useState(true);
   const [sortByStart, setSortByStart] = React.useState(true);
   const [currentActivePage, setActivePage] = React.useState(1);
   const [itemsPerPage, setItemsPerPage] = React.useState(10);
@@ -182,7 +182,7 @@ const Data = (props) => {
     }) : [];
 
     
-
+    console.log("Filtering sites orderByDescending: " + orderByDescending);
     var unknownSites = filteredSites.filter(function( obj ) {
       if(sortByStart)
         return (Number.isNaN(obj.start));
@@ -197,7 +197,7 @@ const Data = (props) => {
         return (!Number.isNaN(obj.end));
     });
 
-    if (orderByEarliest)
+    if (!orderByDescending)
     {
       if(sortByStart)
         filteredSites.sort((a, b,) => parseInt(a.start) - parseInt(b.start));
@@ -218,7 +218,9 @@ const Data = (props) => {
   }
 
   function orderDate(orderValue) {
-    setOrderByEarliest(orderValue);
+    console.log("orderByDescending is: " + orderByDescending);
+    setOrderByDescending(prev => !prev);
+    console.log("orderByDescending is now: " + orderByDescending);
     filterEngine(config);
     renderSite();
   }
@@ -278,8 +280,10 @@ const Data = (props) => {
               <h1> {filteredSites.length} Sites found...</h1>
               <hr />
             </Grid>
+            <Grid item xs={4}>
+              <Button color="inherit" onClick={() => { orderDate(!orderByDescending) }} endIcon={orderByDescending ? <KeyboardArrowDown /> : <KeyboardArrowUp />}>{(orderByDescending) ? "ascending" : "descending"}</Button>
+            </Grid>
             <Grid item xs={3}>
-              <Button color="inherit" onClick={() => { orderDate(!orderByEarliest) }} endIcon={orderByEarliest ? <KeyboardArrowDown /> : <KeyboardArrowUp />}>{(orderByEarliest) ? "descending" : "ascending"}</Button>
               <Button color="inherit" onClick={() => { sortDate(!sortByStart) }} endIcon={sortByStart ? <KeyboardArrowDown /> : <KeyboardArrowUp />}>{(sortByStart) ? "by start" : "by end"}</Button>
             </Grid>
             <Grid item xs={3}>
@@ -300,8 +304,8 @@ const Data = (props) => {
                 </Select>
               </FormControl>
             </Grid>
-            <Grid item xs={3}>
-              <Button color="inherit" onClick={() => { orderDate(downloadJson) }} endIcon={<CloudDownload />}>Download results</Button>
+            <Grid item xs={2}>
+              <Button color="inherit" onClick={() => { orderDate(downloadJson) }}><CloudDownload /></Button>
             </Grid>
             {
               filteredSites.slice(((currentActivePage - 1) * (itemsPerPage)), (currentActivePage * itemsPerPage)).map(site => {
@@ -393,7 +397,9 @@ const Data = (props) => {
     <div>
       {config !== null && config !== undefined ? (renderSite(config)) : (
         <React.Fragment>
-          {loadDbFileGithub()}
+          {
+            loadDbFileGithub()
+          }
         </React.Fragment>
       )}
     </div>
