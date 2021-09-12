@@ -1,22 +1,22 @@
 {
   "files": {
     "main.css": "/Templum/static/css/main.7da87b57.chunk.css",
-    "main.js": "/Templum/static/js/main.2205bd4a.chunk.js",
-    "main.js.map": "/Templum/static/js/main.2205bd4a.chunk.js.map",
+    "main.js": "/Templum/static/js/main.ca0df35b.chunk.js",
+    "main.js.map": "/Templum/static/js/main.ca0df35b.chunk.js.map",
     "runtime-main.js": "/Templum/static/js/runtime-main.3c6e60ca.js",
     "runtime-main.js.map": "/Templum/static/js/runtime-main.3c6e60ca.js.map",
-    "static/js/2.07f8ad39.chunk.js": "/Templum/static/js/2.07f8ad39.chunk.js",
-    "static/js/2.07f8ad39.chunk.js.map": "/Templum/static/js/2.07f8ad39.chunk.js.map",
+    "static/js/2.ac1e2e40.chunk.js": "/Templum/static/js/2.ac1e2e40.chunk.js",
+    "static/js/2.ac1e2e40.chunk.js.map": "/Templum/static/js/2.ac1e2e40.chunk.js.map",
     "static/js/3.cdd907b4.chunk.js": "/Templum/static/js/3.cdd907b4.chunk.js",
     "static/js/3.cdd907b4.chunk.js.map": "/Templum/static/js/3.cdd907b4.chunk.js.map",
     "index.html": "/Templum/index.html",
     "static/css/main.7da87b57.chunk.css.map": "/Templum/static/css/main.7da87b57.chunk.css.map",
-    "static/js/2.07f8ad39.chunk.js.LICENSE.txt": "/Templum/static/js/2.07f8ad39.chunk.js.LICENSE.txt"
+    "static/js/2.ac1e2e40.chunk.js.LICENSE.txt": "/Templum/static/js/2.ac1e2e40.chunk.js.LICENSE.txt"
   },
   "entrypoints": [
     "static/js/runtime-main.3c6e60ca.js",
-    "static/js/2.07f8ad39.chunk.js",
+    "static/js/2.ac1e2e40.chunk.js",
     "static/css/main.7da87b57.chunk.css",
-    "static/js/main.2205bd4a.chunk.js"
+    "static/js/main.ca0df35b.chunk.js"
   ]
 }
