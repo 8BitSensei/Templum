@@ -132,6 +132,7 @@ const Data = (props) => {
   function filterEngine(newConfig) {
     let params = props.query;
     let site = params.get('site');
+    let status = params.get('status');
     let start = params.get('start');
     let end = parseInt(params.get('end'));
     let location = params.get('location');
@@ -176,6 +177,12 @@ const Data = (props) => {
 
       if (index != null && Number(value.index) != Number(index)) {
         return false
+      }
+
+      if(status !== "Any")
+      {
+        if(status != value.status)
+          return false;
       }
 
       return true;
@@ -338,14 +345,18 @@ const Data = (props) => {
                         <TableContainer>
                           <Table aria-label="simple table" className={classes.dataTable}>
                             <TableBody>
-                              <TableRow>
-                                <TableCell component="th" scope="row" width="80px"><b>Location</b></TableCell>
-                                <TableCell align="left">{site.location}</TableCell>
-                              </TableRow>
-                              <TableRow>
-                                <TableCell component="th" scope="row"><b>Description</b></TableCell>
-                                <TableCell align="left">{site.description}</TableCell>
-                              </TableRow>
+                              {Object.keys(site).map(element => 
+                                {
+                                  if(element !== "site" && element !== "start" && element !== "startPlaceholder" && element !== "endPlaceholder" && element !== "end" && element !== "bibliography" && element !== "index")
+                                  {
+                                    console.log(element)
+                                    return(
+                                    <TableRow>
+                                      <TableCell component="th" scope="row" width="80px"><b>{element.charAt(0).toUpperCase() + element.slice(1)}</b></TableCell>
+                                      <TableCell align="left">{site[element]}</TableCell>
+                                    </TableRow>)
+                                  }
+                                })}
                               <TableRow>
                                 <TableCell component="th" scope="row"><b>Bibliography</b></TableCell>
                                 <TableCell align="left">{newlineText(bibliography)}</TableCell>
