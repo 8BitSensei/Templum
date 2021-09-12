@@ -179,7 +179,7 @@ const Data = (props) => {
         return false
       }
 
-      if(status !== "Any")
+      if(status != null && status !== "" && status !== "Any")
       {
         if(status != value.status)
           return false;
