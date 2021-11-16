@@ -1,0 +1,14 @@
+---
+layout: page
+---
+{%- assign items = site.data[site.metadata] -%}
+<div class="row">
+  <div class="col-md-8">
+    {% include index/description.html %}
+    {% include index/update.html %}
+  </div>
+  <div class="col-md-4">  
+    {% include index/subject.html %}
+    {% include index/location.html %}
+  </div>
+</div>

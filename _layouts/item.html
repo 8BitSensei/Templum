@@ -1,0 +1,43 @@
+---
+layout: default
+custom-foot: js/item-js.html
+---
+<link rel="stylesheet" href="{{ '/assets/lib/leaflet/leaflet.css' | relative_url }}">
+<div class="container mt-2 mb-4">
+    <ul class="breadcrumb h6">
+        <li class="breadcrumb-item text-secondary"><a class="text-dark" href="{{ '/browse.html' | relative_url }}">Browse</a></li>
+        <li id="bc-title" class="breadcrumb-item active"></li>
+    </ul>
+    <div id="main-row" class="row">
+        <div id="main-col">
+            <div class="card">
+                <div class="card-body text-left">
+                    <div id="title-div" class="title-container">
+                        <h2 id="item-title"></h2>
+                    </div>
+                    <div class="mt-3">
+                        <div class="col-md-7" id="image-holder"></div>
+                            <div id="item-metadata" class="metadata">
+                            </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+
+    {%- if site.data.theme.browse-buttons == true -%}
+    <div class="text-center">
+        <a id="prev-button" class="btn btn-secondary">&laquo; Previous</a>
+        <a class="btn btn-secondary" href="{{ '/browse.html' | relative_url }}">Back to browse</a>
+        <a id="for-button" class="btn btn-secondary">Next &raquo;</a>
+    </div>
+
+    <div id="item-nav">
+    </div>
+    {% else %}
+    <div class="text-center">
+        <a class="btn btn-outline-primary" href="{{ '/browse.html' | relative_url }}">&laquo; Back to Collection Browse</a>
+    </div>
+    {% endif %}
+</div>

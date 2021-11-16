@@ -1,0 +1,169 @@
+{%- assign items = site.data[site.metadata] | where_exp: 'item','item.latitude' -%}
+{%- assign fields = site.data.config-map -%}
+{%- assign test = site.data[image-sources] -%}
+<!-- load leaflet dependencies -->
+<script src="{{ '/assets/lib/leaflet/leaflet.js' | relative_url }}"></script>
+{% if site.data.theme.map-search == true %}
+    <script src="{{ '/assets/lib/leaflet/fuse.min.js' | relative_url }}"></script>
+    <script src="{{ '/assets/lib/leaflet/leaflet.fusesearch.js' | relative_url }}"></script>
+{% endif %}
+{% if site.data.theme.map-cluster == true %}
+    <script src="{{ '/assets/lib/leaflet/leaflet.markercluster.js' | relative_url }}"></script>
+{% endif %}
+{% if site.data.theme.map-search == true and site.data.theme.map-cluster == true %}
+    <script src="{{ '/assets/lib/leaflet/leaflet.markercluster.freezable.js' | relative_url }}"></script>
+{% endif %}
+
+<script type="module">
+import GithubApi from "./githubapi.js";
+
+function imageExists(url) {
+        var http = new XMLHttpRequest();
+        http.open('HEAD', url, false);
+        http.send();
+        if (http.status != 404)
+            return true;
+        else
+            return false;
+    }
+
+(function(){
+  var githubApi = new GithubApi("8BitSensei", "RitualHub-Dataset", "master");
+  githubApi.get("sites/ritualSites.json", (err, res) => {
+    if (err) {
+      console.log(err);
+    }
+    else {
+        /* add collection map data */
+        var testdata = {
+            "type": "FeatureCollection",
+            "features": [ ]
+        };
+
+        res.content.sites.forEach(site => 
+        {
+            if(site.hasOwnProperty('latitude') && site.hasOwnProperty('longitude'))
+            {
+                var item = {
+                    "type":"Feature",
+                    "geometry":{
+                        "type":"Point",
+                        "coordinates":[site.longitude, site.latitude]
+                    },
+                    "properties":{
+                        "title": site.site,
+                        "id": site.index
+                    }
+                };
+
+                testdata.features.push(item);
+            }
+            
+        });
+
+       
+        /* init map and set zoom */
+        if (window.location.hash) {
+            /* if url has a hash, it is split by comma into coordinates that set the view */
+            var hashfilter = decodeURIComponent(location.hash.substr(1));
+            var latitudeHash = hashfilter.split(',')[0]
+            var longitudeHash = hashfilter.split(',')[1]
+            var map = L.map('map').setView([latitudeHash,longitudeHash],16);
+        } else {
+            var map = L.map('map').setView([{{ site.data.theme.latitude | default: 46.727485 }},{{ site.data.theme.longitude | default: -117.014185 }}],{{ site.data.theme.zoom-level | default: 5 }});
+        }
+
+        /* add map layer options */
+        var Esri_WorldStreetMap = L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Street_Map/MapServer/tile/{z}/{y}/{x}', {
+            attribution: 'Tiles &copy; Esri &mdash; Source: Esri, DeLorme, NAVTEQ, USGS, Intermap, iPC, NRCAN, Esri Japan, METI, Esri China (Hong Kong), Esri (Thailand), TomTom, 2012'
+        });
+        var Esri_NatGeoWorldMap = L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/NatGeo_World_Map/MapServer/tile/{z}/{y}/{x}', {
+            attribution: 'Tiles &copy; Esri &mdash; National Geographic, Esri, DeLorme, NAVTEQ, UNEP-WCMC, USGS, NASA, ESA, METI, NRCAN, GEBCO, NOAA, iPC',
+            maxZoom: 16
+        });
+        var Esri_WorldImagery = L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', {
+            attribution: 'Tiles &copy; Esri &mdash; Source: Esri, i-cubed, USDA, USGS, AEX, GeoEye, Getmapping, Aerogrid, IGN, IGP, UPR-EGP, and the GIS User Community'
+        });
+        /* add base map switcher */
+        var baseMaps = {
+            "Esri World StreetMap": Esri_WorldStreetMap,
+            "Esri National Geo": Esri_NatGeoWorldMap,
+            "Esri Imagery": Esri_WorldImagery
+        };
+        
+        L.control.layers(baseMaps).addTo(map);
+        /* load base map */
+        {{ site.data.theme.map-base | default: 'Esri_WorldStreetMap' }}.addTo(map);
+
+        {% if site.data.theme.map-search == true %}
+        /* add leaflet-fusesearch */
+        var options = {
+            title: 'Search Map Items',
+            locationholder: 'Search map items...',
+            threshold: {{ site.data.theme.map-search-fuzziness | default: 0.35 }} 
+        };
+        var searchCtrl = L.control.fuseSearch(options);
+        searchCtrl.addTo(map);
+        searchCtrl.indexFeatures(testdata.features, {{ fields | where: 'search','true' | map: 'field' | unshift: 'title' | jsonify }});{% endif %}
+
+        {% if site.data.theme.map-cluster == true %}
+        /* create cluster group */
+        var markers = L.markerClusterGroup({ maxClusterRadius: {{ site.data.theme.cluster-radius | default: 15 }}, singleMarkerMode: true {% if site.data.theme.map-search == true %}, removeOutsideVisibleBounds: false{% endif %} });{% endif %}
+
+        /* function to create object popups */
+        function objectPopups(feature, layer) {
+            console.log(feature);
+            {% if site.data.theme.map-search == true %}
+            /* bind feature for search */
+            feature.layer = layer;{% endif %}
+            /* calculate item link */
+            var itemHref = '{{ "/item.html?id=" | relative_url }}' + feature.properties.id;
+            /* create popup content */
+            var siteImage = window.location.protocol + "//" + window.location.host + "/Templum/objects/site_" + feature.properties.id + ".jpg";
+            var img;
+            if(imageExists(siteImage))
+            {
+                img = '<div class="text-center"><a href="' + itemHref + '" ><img class="mapthumb img-thumb" src="' +  siteImage + '" alt="item thumbnail"></a></div>';
+            }
+
+            var popupTemplate = '<h4><a class="text-dark" href="' + itemHref + '">' +
+                feature.properties.title + '</a></h4>' + img + ' <p class="mt-1">';
+            /* add metadata fields */
+            {% for f in fields %}{% if f.display_name %}
+            if (feature.properties[{{ f.field | jsonify }}]) {
+                popupTemplate += '<strong>{{ f.display_name }}:</strong> ' + feature.properties[{{ f.field | jsonify }}] + '<br>'; 
+            }
+            {% endif %}{% endfor %}
+            /* add object link button to popup */
+            popupTemplate += '</p><div class="text-center"><a class="btn btn-light" href="' + itemHref + '" >View Item</a></div>';
+            /* add object popup to map layer */
+            layer.bindPopup(popupTemplate);
+        }
+
+        /* function to add objects to map */
+        function objectMarkers(feature,latlng) {
+            var marker = L.marker(latlng);
+            {% if site.data.theme.map-cluster == true %}markers.addLayer(marker);{% endif %}
+            return marker;
+        }
+
+        /* use geoJson features to add objects to map */
+        L.geoJson(testdata, {
+            onEachFeature: objectPopups,
+            pointToLayer: objectMarkers
+        }){% if site.data.theme.map-cluster != true %}.addTo(map);{% else %};
+        map.addLayer(markers);{% endif %}
+        
+        {% if site.data.theme.map-cluster == true and site.data.theme.map-search == true %}
+        /* uncluster when search is clicked */
+        document.querySelector('a.button').addEventListener("click", function() {
+            markers.disableClustering();
+        });
+        /* recluster when search is closed */
+        document.querySelector('a.close').addEventListener("click", function() {
+            markers.enableClustering();
+            document.querySelector('input.search-input').value = "";
+        });{% endif %}
+    }});
+})();
+</script>

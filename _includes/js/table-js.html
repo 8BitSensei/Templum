@@ -1,0 +1,24 @@
+{% assign fcount = site.data.config-table | size %}
+<script type="text/javascript" language="javascript" src="{{ '/assets/lib/datatables/datatables.min.js' | relative_url }}"></script>
+<script>
+/* use jquery to initialize DataTables and load collection data */
+(function(){
+    console.log('{{ "/assets/js/metadata.min.json" | relative_url }}');
+    $('#item-table').DataTable( {
+        // use DataTables ajax load to 
+        ajax: { url: 'https://raw.githubusercontent.com/8BitSensei/RitualHub-Dataset/master/sites/ritualSites.json', dataSrc: 'sites' },
+        // defer render to speed up large sets
+        "deferRender": true,
+        // enable pagination 
+        "paging": true,
+        "lengthMenu": [[ 25, 50, 100, -1], [ 25, 50, 100, "All"]],
+        // add download features
+        dom: 'B<"row mt-2"<"col-md-6"l><"col-md-6"f>>t<"row"<"col-md-6"i><"col-md-6"p>>', 
+        buttons: [ 'excelHtml5', 'csvHtml5' ],
+        // set up the columns from the json
+        columns: [ {data: "site"}, {data: "start"}, {data: "end"}, {data: "location"}, {data: "description"}, {data: "bibliography"}, {data: "tags"}],
+        columnDefs: [ { "defaultContent": "", "targets": "_all" } ],
+        
+    });
+})();
+</script>

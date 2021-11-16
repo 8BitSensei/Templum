@@ -1,0 +1,7 @@
+field,index,display
+site,true,true
+start,true,true
+end,true,true
+description,true,true
+subject,true,true
+location,true,false

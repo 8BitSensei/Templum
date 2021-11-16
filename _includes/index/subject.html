@@ -1,0 +1,39 @@
+<script type="module" >
+    import GithubApi from "./githubapi.js";
+    var githubApi = new GithubApi("8BitSensei", "RitualHub-Dataset", "master");
+    githubApi.get("sites/ritualSites.json", (err, res) => {
+        if (err) {
+            console.log(err);
+        }
+        else {
+            var sites = res?.content?.sites.filter(element => element?.tags != undefined);
+            var rndTags = [];
+            for (let i = 0; i < 7; i++) {
+                var site = sites[Math.floor(Math.random() * sites?.length)];
+                console.log(site);
+                if(site?.tags != undefined)
+                {
+                    var tags = site?.tags.split(',');
+                    var tag = tags[Math.floor(Math.random() * tags?.length)];
+                    if(!rndTags.includes(tag))
+                    {
+                        rndTags.push(tag);
+                    }
+                }
+            }
+
+            rndTags.forEach(i => 
+            {
+                document.getElementById("tags").insertAdjacentHTML("beforeend", '<a class="btn btn-sm btn-info m-1" href="browse.html#' + encodeURIComponent(i) + '">' + i + '</a>');
+            })
+            
+        }
+    });
+</script>
+<div class="card mb-3">
+    <div class="card-body">
+        <h5 class="card-title">Subjects</h5>
+        <p class="card-text" id="tags">
+        </p>
+    </div>
+</div>

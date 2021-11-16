@@ -1,0 +1,28 @@
+<script type="module" >
+  import GithubApi from "./githubapi.js";
+  var githubApi = new GithubApi("8BitSensei", "RitualHub-Dataset", "master");
+  githubApi.getUpdates("sites/ritualSites.json", (err, res) => {
+      if (err) {
+          console.log(err);
+      }
+      else {
+        for (var i = 0; i < Math.min(res.content.length, 5); i++)
+        {
+          var message = res.content[i].commit.message;
+          var avatar = res.content[i].author.avatar_url;
+          var author = res.content[i].author.login
+          var link = res.content[i].html_url;
+          var date = res.content[i].commit.author.date;
+
+          document.getElementById("updates").insertAdjacentHTML("beforeend", ' <a class="card-text update-link" href="' + link + '">(' + (new Date(date)).toLocaleDateString('en-GB') + ') ' + author + ': ' + message + '</a></br>');
+        }
+
+      }
+  });
+</script>
+<div class="card mb-3">
+    <div class="card-body" id="updates">
+      <h2 class="card-title">Latest Updates</h2>
+    </div>
+  </div>
+  

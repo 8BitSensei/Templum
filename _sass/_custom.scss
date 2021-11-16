@@ -1,0 +1,105 @@
+/* 
+    Put your custom SCSS here! 
+    This allows you to override any CollectionBuilder or Bootstrap CSS without modifying the base theme files directly.
+*/
+
+body 
+{
+    background-color: #fff5ee;
+}
+
+.title
+{
+    color: #ffffff;
+}
+
+.card-body
+{
+    box-shadow: 1px 1px #cccccc;
+    border-radius: 5px;
+}
+
+.navbar
+{
+    padding: 0px;
+}
+
+.item-tag
+{
+    color: #17a2b8;
+    border: 0px;
+    padding: 0px;
+}
+
+.page-link
+{
+    color: #17a2b8;
+}
+
+ul.pagination 
+{
+    justify-content: center;
+}
+
+.title-container
+{
+    display: flex;
+}
+
+.item-status
+{
+    margin-left: auto;
+}
+
+.btn-certain{
+    color: #fff;
+    background-image: linear-gradient(#4da309, #469408 6%, #3f8507);
+    background-repeat: no-repeat;
+    border: 1px solid #377506;
+    height: fit-content;
+}
+
+.btn-probable{
+    color: #fff;
+    background-image: linear-gradient(#e08b27, #D9831F 6%, #cc7b1d);
+    background-repeat: no-repeat;
+    border: 1px solid #bc711b;
+    height: fit-content;
+}
+
+.btn-possible{
+    color: #fff;
+    background-image: linear-gradient(#de0202, #cf0202 6%, #c00202);
+    background-repeat: no-repeat;
+    border: 1px solid #ae0202;
+    height: fit-content;
+}
+
+.container, .container-sm, .container-md, .container-lg, .container-xl {
+    max-width: 1340px;
+}
+
+.item-map
+{
+    height: 500px;
+}
+
+.bib-list
+{
+    list-style-type: none;
+    padding: 0;
+}
+
+.bib-item, .field
+{
+    margin-bottom: 7px;
+}
+
+#download-btn
+{
+    color: #fff;
+}
+
+.about-contents>h2 {
+    padding-top: 20px;
+}

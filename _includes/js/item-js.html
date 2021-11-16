@@ -1,0 +1,221 @@
+{%- assign fields = site.data.config-metadata -%}
+{%- assign stubs = site.data.config-nav | map: 'stub' | join: ';' -%}
+<script src="{{ '/assets/lib/lightgallery/js/lightgallery-all.min.js' | relative_url }}"></script>
+<script src="{{ '/assets/lib/leaflet/leaflet.js' | relative_url }}"></script>
+{% if site.data.theme.map-search == true %}
+    <script src="{{ '/assets/lib/leaflet/fuse.min.js' | relative_url }}"></script>
+    <script src="{{ '/assets/lib/leaflet/leaflet.fusesearch.js' | relative_url }}"></script>
+{% endif %}
+{% if site.data.theme.map-cluster == true %}
+    <script src="{{ '/assets/lib/leaflet/leaflet.markercluster.js' | relative_url }}"></script>
+{% endif %}
+{% if site.data.theme.map-search == true and site.data.theme.map-cluster == true %}
+    <script src="{{ '/assets/lib/leaflet/leaflet.markercluster.freezable.js' | relative_url }}"></script>
+{% endif %}
+<script type="module" >
+import GithubApi from "./githubapi.js";
+
+function reloadData()
+{
+    function getRandomInRange(from, to, fixed) {
+        return (Math.random() * (to - from) + from).toFixed(fixed) * 1;
+        // .toFixed() returns string, so ' * 1' is a trick to convert to number
+    }
+
+    function imageExists(url) {
+        console.log(url);
+        var http = new XMLHttpRequest();
+        http.open('HEAD', url, false);
+        http.send();
+        if (http.status != 404)
+            return true;
+        else
+            return false;
+    }
+
+  var githubApi = new GithubApi("8BitSensei", "RitualHub-Dataset", "master");
+  githubApi.get("sites/ritualSites.json", (err, res) => {
+    if (err) {
+      console.log(err);
+    }
+    else {
+      var items = res.content.sites;
+      var queryString = window.location.search.substring(1).split("=")[1];
+      var record = items[queryString];
+      if (record) {
+        /* add item title */
+        var objectTitle = record.site;
+        document.getElementById("bc-title").innerHTML = objectTitle;
+        document.getElementById("item-title").innerHTML = objectTitle;
+        if(record?.status != undefined){
+            if(record.status.toLowerCase() == 'certain')
+            {
+                document.getElementById("title-div").insertAdjacentHTML("beforeend", "<p id=\"item-status\" class=\"btn-sm btn-certain item-status\">" + record.status + "</p>");
+            }
+            else if(record.status.toLowerCase() == 'probable')
+            {
+                document.getElementById("title-div").insertAdjacentHTML("beforeend", "<p id=\"item-status\" class=\"btn-sm btn-probable item-status\">" + record.status + "</p>");
+            }
+            else if(record.status.toLowerCase() == 'possible')
+            {
+                document.getElementById("title-div").insertAdjacentHTML("beforeend", "<p id=\"item-status\" class=\"btn-sm btn-possible item-status\">" + record.status + "</p>");
+            }
+            
+        } 
+        
+        /* add object */ 
+        var format = "" + record.format;
+        var objectLink = record.filename;
+        var itemImage;
+        if (format.includes('image')) {
+            itemImage= '<div class="gallery-img" data-src="' + objectLink + '"><img class="img-fluid" src="' + objectLink + '" alt="' + objectTitle + '"><p><small>Click to view full screen</small></p></div>';
+        } else if (format.includes('pdf')) {
+            itemImage= '<object data="' + objectLink + '" type="application/pdf" width="100%" height="450px"><p>The PDF is not rendering in your browser. Please use the button below to download the PDF.</p></object>';
+        } else if (format.includes('audio')) {
+            itemImage= '<audio controls class="w-100"><source src="' + objectLink + '">Your browser does not support the audio element.</audio>';
+        } else if (record.youtube) {
+            itemImage= '<div class="embed-responsive embed-responsive-16by9"><iframe class="embed-responsive-item" src="https://www.youtube-nocookie.com/embed/' + record.youtube + '?rel=0&modestbranding=1" allowfullscreen></iframe></div>';
+        } else if (record.vimeo) {
+            itemImage= '<div class="embed-responsive embed-responsive-16by9"><iframe class="embed-responsive-item" src="https://player.vimeo.com/video/' + record.vimeo + '" allowfullscreen></iframe></div>';
+        } else if (format.includes('video')) {
+            itemImage= '<video controls class="w-100"><source src="' + objectLink + '">Your browser does not support the video element.</audio>';
+        } else {
+            /* fall back to no preview if it doesn't know the format */
+            itemImage= undefined;
+        }
+        
+        var siteImage = window.location.protocol + "//" + window.location.host + "/Templum/objects/site_" + record.index + ".jpg";
+        if(imageExists(siteImage) || (record?.latitude != undefined && record?.longitude != undefined))
+        {
+            document.getElementById("main-col").classList.add('col-md-8');
+            document.getElementById("main-row").insertAdjacentHTML("beforeend", "<div id=\"side-col\" class=\"col-md-4\"></div>");
+            if(imageExists(siteImage))
+            {
+                document.getElementById("side-col").insertAdjacentHTML("beforeend", '<div class="card mb-3 text-center"><div class="card-body w-100 text-center p-1" id="item-image"><div class="gallery-img" data-src="' + siteImage + '"><img class="img-fluid" src="' + siteImage + '" alt="' + record.site + '"><p><small>Click to view full screen</small></p></div></div></div>');
+                $("#item-image").lightGallery({
+                    selector: '.gallery-img'
+                });
+            }
+
+            
+            if(record?.latitude != undefined && record?.longitude != undefined)
+            {
+                document.getElementById("side-col").insertAdjacentHTML("beforeend", '<div class="card mb-3 text-center"><div class="card-body w-100 text-center p-1" id="item-image"><div id="map" style="height:500px;"></div></div></div>');
+                var map = L.map('map').setView([record.latitude, record.longitude], 13);
+                /* add map layer options */
+                var Esri_WorldStreetMap = L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Street_Map/MapServer/tile/{z}/{y}/{x}', {
+                });
+                var Esri_NatGeoWorldMap = L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/NatGeo_World_Map/MapServer/tile/{z}/{y}/{x}', {
+                });
+                var Esri_WorldImagery = L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', {
+                });
+                /* add base map switcher */
+                var baseMaps = {
+                    "Esri World StreetMap": Esri_WorldStreetMap,
+                    "Esri National Geo": Esri_NatGeoWorldMap,
+                    "Esri Imagery": Esri_WorldImagery
+                };                
+                L.control.layers(baseMaps).addTo(map);
+                /* load base map */
+                console.log(record.latitude + ", " + record.longitude);
+                {{ site.data.theme.map-base }}.addTo(map);
+                
+                var marker = L.marker([record.latitude, record.longitude]).addTo(map);
+            }
+        }
+
+        var fields = '<dl>';
+        if(record?.location != undefined){
+            fields += '<dt class="field">Location:</dt> <dd class="field-value">{% if f.external_link == "true" %}<a href="' + record.location + '" target="_blank">' + record.location + '</a>{% else %}' + record.location + '{% endif %}</dd>';
+        } 
+
+        if(record?.start != undefined){
+            fields += '<dt class="field">From:</dt> <dd class="field-value">{% if f.external_link == "true" %}<a href="' + record.start + '" target="_blank">' + record.start + '</a>{% else %}' + record.start + '{% endif %}</dd>';
+        }
+        
+        if(record?.end != undefined){
+            fields += '<dt class="field">End:</dt> <dd class="field-value">{% if f.external_link == "true" %}<a href="' + record.end + '" target="_blank">' + record.end + '</a>{% else %}' + record.end + '{% endif %}</dd>';
+        } 
+
+        if(record?.description != undefined){
+            fields += '<dt class="field">Description:</dt> <dd class="field-value">' + record.description + '</dd>';
+        } 
+
+        if(record?.tags != undefined){
+            fields += '<dt class="field">Tags:</dt><dd class="field-value">';
+            var tags = record.tags.split(',');
+            tags.forEach(tag => 
+            {
+                fields += '<a class="btn-link item-tag" href="{{ '/browse.html' | relative_url }}#' + encodeURIComponent(tag.trim()) + '">' + tag.trim() + ',</a> ';
+            });
+
+            fields += '</dd>';
+        } 
+        
+       // All else
+
+        if(record?.bibliography != undefined){
+            console.log(record.bibliography[0]);
+            fields += '<dt class="field">Bibliography:</dt> <dd class="field-value"><ul class="bib-list">';
+            record.bibliography.forEach(item => 
+            {
+                fields += '<li class="bib-item"><i>' + item + '</i></li>';
+            });
+
+            fields += '</ul></dd></dt>';
+           
+        } 
+
+        fields += '</dl>';
+        document.getElementById("item-metadata").innerHTML = fields;
+
+        {% if site.data.theme.browse-buttons == true %}
+        /* add prev/next nav */
+        var itemKeys = Object.keys(items);
+        var current = itemKeys.indexOf(queryString);
+      
+        var last = itemKeys.length - 1;
+        var back, forward;
+        if (current === 0) {
+            back = itemKeys[last];
+        } else { 
+            back = itemKeys[current - 1];
+        }
+        if (current === last) {
+            forward = itemKeys[0];
+        } else {
+            forward = itemKeys[current + 1];
+        }
+
+        
+        var backUrl = "{{ '/item.html?id=' | relative_url }}" + back;
+        var forwardUrl = "{{ '/item.html?id=' | relative_url }}" + forward;
+        /* add bottom buttons to page */
+        document.getElementById("prev-button").href = backUrl;
+        document.getElementById("for-button").href = forwardUrl;
+
+        /* add back forward key press */
+        document.onkeydown = function(evt) {
+        evt = evt || window.event;
+        switch (evt.keyCode) {
+            case 37:
+            location.href = backUrl;
+                break;
+            case 39:
+            location.href = forwardUrl;
+                break;
+        }};
+        {%- endif -%}
+        
+    } else {
+        /* no item with that ID */
+        document.getElementById("bc-title").innerHTML = 'Not found?';
+        document.getElementById("item-title").innerHTML = 'Sorry, item not found. Please visit <a href="{{ "/browse.html" | relative_url }}">Browse page</a> to find an item.';
+    }
+      
+    }});
+}
+
+reloadData();
+
+</script>

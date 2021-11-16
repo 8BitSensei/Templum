@@ -1,0 +1,283 @@
+{%- assign items = site.data[site.metadata] | where_exp: 'item','item.objectid' -%}
+{%- assign fields = site.data.config-browse -%}
+<script type="module" >
+import GithubApi from "./githubapi.js";
+
+function makeCard(obj) {
+    var itemHref = "{{ '/item.html' | relative_url | append: '?id=' }}" + obj?.index;
+    var imgSrc, thumbSrc;
+    var card = '<div class="item col-lg-4 col-md-6 col-sm-12 mb-2"><div class="card">';
+    if(imgSrc) {
+      card += '<a href="' + itemHref + '"> <img class="card-img-top lazyload" data-src="' + imgSrc + '" alt="Image of ' + obj?.site + '"></a>';
+    }
+
+    var statusIcon = "";
+    if(obj?.status != undefined)
+    {
+      if(obj.status.toLowerCase() == 'certain'){
+        statusIcon = "<p id=\"item-status\" class=\"btn-sm btn-certain item-status\">Certain</p>";
+      }
+      else if(obj.status.toLowerCase() == 'probable'){
+        statusIcon = "<p id=\"item-status\" class=\"btn-sm btn-probable item-status\">Probable</p>";
+      }
+      else if(obj.status.toLowerCase() == 'possible'){
+        statusIcon = "<p id=\"item-status\" class=\"btn-sm btn-possible item-status\">Possible</p>";
+      }
+    }
+
+
+    card += '<div class="card-body text-left"> <div id="title-div" class="title-container"><h4 class="card-title"><a href="' + itemHref + '" class="text-dark"><b>' + obj?.site + '</b></a></h4>' + statusIcon + '</div>';
+
+    card += '<p><a class="text-dark">' + obj?.location + '</a></p>';
+    card += '<p><a class="text-dark">from ' + obj?.start + ' to ' + obj?.end + '</a></p>';
+    if(thumbSrc){
+      card += '<p><a href="' + itemHref + '"><img class="lazyload w-50" data-src="' + thumbSrc + '" alt="Image of ' + obj?.title + '"></a></p>';
+    }
+    
+    card += '<p class="card-text">';
+    if(obj.subjects != undefined)
+    {
+      var btns = obj.subjects.split(",");
+      for (var i = 0, len = btns.length; i < len; i++) {
+        card += '<a class="btn btn-sm text-wrap item-tag" href="{{ '/browse.html' | relative_url }}#' + encodeURIComponent(btns[i].trim()) + '">' + btns[i].trim() + ',&nbsp</a>';
+      }
+    }
+    
+    card += '</p>';
+    card += '</div></div></div>';
+
+    return card;
+}
+
+function shuffle(array) {
+    var m = array.length, t, i;
+    while (m) {
+    i = Math.floor(Math.random() * m--);
+    t = array[m];
+    array[m] = array[i];
+    array[i] = t;
+    }
+    return array;
+}
+
+function filterItems(arr,q,params) {
+  if(params.page == undefined)
+  {
+    params.page = 1;
+  }
+  
+  if (q=="") { 
+    var filteredItems = arr; 
+  } else {
+    q = q.trim().toUpperCase(); 
+    var filteredItems = [];
+    for (var i = 0, len = arr.length; i < len; i++) {
+      var val = "";
+      for (var k in arr[i]) { val += arr[i][k] + " "; }
+      if(val.toUpperCase().indexOf(q) != -1){
+        filteredItems.push(arr[i]);
+      }
+    }
+  }
+
+  var itemsPerPage = 25;
+  var pagination = {
+    total: filteredItems.length,
+    per_page: itemsPerPage,    
+    current_page: params.page, 
+    last_page: Math.ceil(filteredItems.length / itemsPerPage),
+    from: Math.min(((params.page -1) * itemsPerPage), filteredItems.length),
+    to: Math.min(params.page  * itemsPerPage, filteredItems.length)
+  };
+
+  var spliced = filteredItems.slice(pagination.from, pagination.to);
+  $("#numberOf").html((pagination.to - pagination.from) + " of " + pagination.total + " items");
+  var cards = "";
+  for (var i = 0, len = spliced.length; i < len; i++) {
+    cards += makeCard(spliced[i]);
+  }
+
+  $("#browseItems").html(cards);
+  $("#goButton").focus();
+  $("#loading").hide();
+
+
+  var nav = "<ul class=\"pagination\">";
+  if (params.page == 1)
+  {
+    nav += "<li class=\"paginate_button page-item previous disabled\" id=\"item-table_previous\"><a href=\"#" + q + "\" aria-controls=\"item-table\" data-dt-idx=\"0\" tabindex=\"0\" class=\"page-link\">Previous</a></li>";
+  }
+  else
+  {
+    nav += "<li class=\"paginate_button page-item previous\" id=\"item-table_previous\"><a  data-page=\"" + (params.page - 1) + "\" href=\"#" + q + "\" aria-controls=\"item-table\" data-dt-idx=\"0\" tabindex=\"0\" class=\"page-link\">Previous</a></li>";
+  }
+
+  for(let i = 1; i <= pagination.last_page; i++)
+  {
+    if(i == params.page)
+    {
+      nav += "<li class=\"paginate_button page-item active\"><a data-page=\"" + i + "\" href=\"#" + q + "\" aria-controls=\"item-table\" data-dt-idx=\"1\" tabindex=\"0\" class=\"page-link\">" + i + "</a></li>";
+    }
+    else
+    {
+      nav += "<li class=\"paginate_button page-item\"><a data-page=\"" + i + "\" href=\"#" + q + "\" aria-controls=\"item-table\" data-dt-idx=\"1\" tabindex=\"0\" class=\"page-link\">" + i + "</a></li>";
+    }
+  }
+
+  if(params.page == pagination.last_page)
+  {
+    nav += "<li class=\"paginate_button page-item next disabled\" id=\"item-table_next\"><a href=\"#" + q + "\" aria-controls=\"item-table\" data-dt-idx=\"3\" tabindex=\"0\" class=\"page-link\">Next</a></li>";
+  }
+  else
+  {
+    var next = Number(params.page) + 1;
+    nav += "<li class=\"paginate_button page-item next\" id=\"item-table_next\"><a data-page=\"" + next + "\" href=\"#" + q + "\" aria-controls=\"item-table\" data-dt-idx=\"3\" tabindex=\"0\" class=\"page-link\">Next</a></li>";
+  }
+
+  nav += "</ul>";
+  $("#item-table_paginate").html(nav);
+  $('.page-link').click( function() {
+    params.page = Number(this.getAttribute('data-page'));
+    reloadData(params);
+  });
+};
+
+function sorting(json_object, key_to_sort_by, dates) {
+    function sortByKey(a, b) {
+        var x = a[key_to_sort_by];
+        var y = b[key_to_sort_by];
+
+        if(key_to_sort_by == 'start' || key_to_sort_by == 'end')
+        {
+          x = Number(getDateValue(x, dates));
+          y = Number(getDateValue(y, dates));
+        }
+
+        if (typeof x === 'string' ){
+           x = x.toUpperCase();
+        }
+        
+        if (typeof y === 'string' ){
+           y = y.toUpperCase();
+        }
+
+        return ((x==null) ? 1: (y==null) ? -1: (x < y) ? -1 : ((x > y) ? 1 : 0));
+    }
+
+    json_object.sort(sortByKey);
+};
+
+function getDateValue(n, dates) 
+{
+  var test = !isNaN(parseFloat(n)) && !isNaN(n - 0);
+  if(test)
+  {
+    return n;
+  } 
+  else
+  {
+    var e = dates[n];
+    if(e == '')
+    {
+      return 601;
+    }
+
+    return e;
+  }
+}
+
+function downloadJson(sites) {
+    var myObjStr = JSON.stringify(sites);
+    var element = document.getElementById('download-btn');
+    element.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(myObjStr));
+    element.setAttribute('download', "ritualHub_results.json");
+  }
+
+function reloadData(params)
+{
+  var githubApi = new GithubApi("8BitSensei", "RitualHub-Dataset", "master");
+  githubApi.get("sites/ritualSites.json", (err, res) => {
+    if (err) {
+      console.log(err);
+    }
+    else {
+      console.log(params);
+      if(params.page == undefined){
+        params.page = 1;
+      }
+
+      var dates = res.content.dates;
+      var items = res.content.sites;
+      var query = "";
+      if(window.location.hash) {
+        query = decodeURIComponent(location.hash.substr(1));
+        $('#quickSearch').val(query);
+        if(params.field != undefined) {
+          sorting(items, params.field, dates);
+          filterItems(items,query,params);
+        }
+        else
+        {
+          filterItems(items,query,params);
+        }
+      } else {
+        query = "";
+        if(params.field != undefined) {
+          sorting(items, params.field, dates);
+          filterItems(items,query,params);
+        }
+        else
+        {
+          filterItems(items,query,params);
+        }
+      } 
+
+      $('#download-btn').click( function() {
+        downloadJson(items);
+      });
+    }});
+
+
+}
+
+var query = "";
+reloadData({field:'start'});
+
+/* add hash if search button clicked */ 
+$('#goButton').click( function() {
+  window.location.hash = encodeURIComponent($('#quickSearch').val());
+});
+
+
+        
+/* add hash if if enter is pressed */
+$('#quickSearch').keypress(function(e){
+  if(e.which == 13){
+    window.location.hash = encodeURIComponent($('#quickSearch').val());
+  }
+});
+
+/* filter if hash changes */ 
+$(window).on("hashchange", function() {
+  $("#loading").show();
+  query = decodeURIComponent(location.hash.substr(1));
+  $('#quickSearch').val(query);
+  reloadData({});
+});
+
+/* add sort function on click of sort options */
+$(".browse-sort-item").click(function (event) {
+  var field = $(this).data('filter');
+  var dname = $(this).text();
+  var query = $('#quickSearch').val();
+      
+  $(".browse-sort-item").removeClass('active');
+  $(this).addClass('active');
+  $('#sortfilter').text(dname);
+  if (field != 'random') {
+    reloadData({field:field});
+  }
+});
+
+
+</script>

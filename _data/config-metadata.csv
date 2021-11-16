@@ -1,0 +1,10 @@
+field,display_name,browse_link,external_link
+site,Site,
+start,From,
+end,To,
+description,Description,
+subject,Subjects,true
+location,Location
+latitude,Latitude
+longitude,Longitude
+bibliography,Bibliography
