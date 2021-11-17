@@ -87,7 +87,7 @@ function reloadData()
         var siteImage = window.location.protocol + "//" + window.location.host + "/Templum/objects/site_" + record.index + ".jpg";
         if(imageExists(siteImage) || (record?.latitude != undefined && record?.longitude != undefined))
         {
-            document.getElementById("main-col").classList.add('col-md-8');
+            document.getElementById("main-col").className = 'col-md-8';
             document.getElementById("main-row").insertAdjacentHTML("beforeend", "<div id=\"side-col\" class=\"col-md-4\"></div>");
             if(imageExists(siteImage))
             {
