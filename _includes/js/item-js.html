@@ -41,7 +41,7 @@ function reloadData()
     else {
       var items = res.content.sites;
       var queryString = window.location.search.substring(1).split("=")[1];
-      var record = items[queryString];
+      var record = items.find(site => site.index == queryString);
       if (record) {
         /* add item title */
         var objectTitle = record.site;
