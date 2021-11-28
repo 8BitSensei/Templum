@@ -120,14 +120,8 @@ function imageExists(url) {
             var itemHref = '{{ "/item.html?id=" | relative_url }}' + feature.properties.id;
             /* create popup content */
             var siteImage = window.location.protocol + "//" + window.location.host + "/Templum/objects/site_" + feature.properties.id + ".jpg";
-            var img;
-            if(imageExists(siteImage))
-            {
-                img = '<div class="text-center"><a href="' + itemHref + '" ><img class="mapthumb img-thumb" src="' +  siteImage + '" alt="item thumbnail"></a></div>';
-            }
-
             var popupTemplate = '<h4><a class="text-dark" href="' + itemHref + '">' +
-                feature.properties.title + '</a></h4>' + img + ' <p class="mt-1">';
+                feature.properties.title + '</a></h4> <p class="mt-1">';
             /* add metadata fields */
             {% for f in fields %}{% if f.display_name %}
             if (feature.properties[{{ f.field | jsonify }}]) {
