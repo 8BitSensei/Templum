@@ -28,7 +28,7 @@ function imageExists(url) {
     }
 
 (function(){
-    var githubApi = new GithubApi("8BitSensei", "Templum-Data", "master");
+    var githubApi = new GithubApi("8BitSensei", "Templum-Data", "gh-pages");
     githubApi.get("data/templum_sites.json", (err, res) => {
     if (err) {
       console.log(err);
