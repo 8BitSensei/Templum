@@ -33,8 +33,8 @@ function reloadData()
             return false;
     }
 
-  var githubApi = new GithubApi("8BitSensei", "RitualHub-Dataset", "master");
-  githubApi.get("sites/ritualSites.json", (err, res) => {
+    var githubApi = new GithubApi("8BitSensei", "Templum-Data", "master");
+    githubApi.get("data/templum_sites.json", (err, res) => {
     if (err) {
       console.log(err);
     }

@@ -190,13 +190,13 @@ function downloadJson(sites) {
     var myObjStr = JSON.stringify(sites);
     var element = document.getElementById('download-btn');
     element.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(myObjStr));
-    element.setAttribute('download', "ritualHub_results.json");
+    element.setAttribute('download', "templum_results.json");
   }
 
 function reloadData(params)
 {
-  var githubApi = new GithubApi("8BitSensei", "RitualHub-Dataset", "master");
-  githubApi.get("sites/ritualSites.json", (err, res) => {
+  var githubApi = new GithubApi("8BitSensei", "Templum-Data", "master");
+  githubApi.get("data/templum_sites.json", (err, res) => {
     if (err) {
       console.log(err);
     }
