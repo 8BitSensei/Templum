@@ -15,7 +15,7 @@ Templum and its accompanying dataset is all open-source, meaning that it is all 
 ## How to
 
 An excellent practical guide on how to make a contribution to an open-source project is available [here](https://github.com/firstcontributions/first-contributions).
-The Templum dataset is available [here](https://github.com/8BitSensei/RitualHub-Dataset) and the Templum Website [here](https://github.com/8BitSensei/Templum).
+The Templum dataset is available [here](https://8bitsensei.github.io/Templum-Data) and the Templum Website [here](https://github.com/8BitSensei/Templum).
 
 ## Format
 
