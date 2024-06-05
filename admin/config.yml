@@ -1,7 +1,7 @@
 backend:
     name: github
     repo: 8BitSensei/Templum-Data
-    branch: decap-testing
+    branch: master
 
 media_folder: /static/media/uploads
 public_folder: /media/uploads
