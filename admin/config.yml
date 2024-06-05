@@ -51,6 +51,7 @@ collections:
     - label: "Dates"
       name: "dates"
       format: json
+      widget: list
       file: "data/metadata/dates.yml"
       fields:
         - {label: unknown, name: unknown, widget: string, required: false, hidden: true}
