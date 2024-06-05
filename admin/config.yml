@@ -10,8 +10,9 @@ collections:
   - label: "Sites"
     name: "sites"
     folder: "data/sites"
+    format: json
     create: true
-    identifier_field: name
+    identifier_field: site
     fields:
       - {label: index, name: index, widget: number, min: 0}
       - {label: Site, name: site, widget: string}
@@ -47,6 +48,7 @@ collections:
       - {label: Bibliography, name: bibliography, widget: list, required: false}
   - label: "Metadata"
     name: "metadata"
+    format: json
     files:
     - label: "Dates"
       name: "dates"
