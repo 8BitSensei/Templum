@@ -5,6 +5,38 @@ export default class GithubAPi {
       this.branch = branch;
     }
   
+    getDirectory(name, callback){
+      fetch('https://api.github.com/repos/'+this.username+'/'+this.repo+'/contents/data/'+ name + '?ref='+this.branch)
+      .then(response => response.json())
+      .then((data) => {
+        let aggregatedData = {
+          name: name,
+          content: []
+        };
+
+        data.forEach(element => {
+          var rawPath = element.download_url;
+          if (rawPath.endsWith(".json")) {
+              fetch(rawPath)
+              .then(response => response.json())
+              .then((data) => {
+                if(data) {
+                  aggregatedData.content.push(data)
+                }
+              },
+              (error) => {
+                return callback(error, undefined);
+              })
+          }
+        });
+
+        callback(undefined, aggregatedData)
+      },
+      (error) => {
+        return callback(error, undefined);
+      })
+    }
+
     get(name, callback) {
       if (name.indexOf(".json") !== -1) {
         console.log('https://raw.githubusercontent.com/'+this.username+'/'+this.repo+'/'+this.branch+'/'+name);
