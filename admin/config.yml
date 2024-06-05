@@ -47,11 +47,11 @@ collections:
       - {label: Bibliography, name: bibliography, widget: list, required: false}
   - label: "Metadata"
     name: "metadata"
-    format: json
     files:
     - label: "Dates"
       name: "dates"
-      file: "data/metadata_dates.yml"
+      format: json
+      file: "data/metadata/dates.yml"
       fields:
         - {label: unknown, name: unknown, widget: string, required: false, hidden: true}
         - {label: early 1st BCE, name: early 1st BCE, widget: string}
