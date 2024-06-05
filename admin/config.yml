@@ -8,51 +8,43 @@ public_folder: /media/uploads
 
 collections:
   - label: "Sites"
-    name: "site"
-    folder: "data/site"
+    name: "sites"
+    folder: "data/sites"
     create: true
     identifier_field: name
     fields:
-      - {label: "Name", name: name}
-      - {label: "Description", name: description, widget: "text"}
-      - label: "Sites"
-        name: "sites"
-        collapsed: false
-        widget: "list"
-        summary: '{{fields.site}}'
-        fields:
-          - {label: index, name: index, widget: number, min: 0}
-          - {label: Site, name: site, widget: string}
-          - {label: Start, name: start, widget: string, required: false}
-          - {label: End, name: end, widget: string, required: false}
-          - {label: Location, name: location, widget: string}
-          - {label: Description, name: description, widget: text, required: false}
-          - label: "Status"
-            name: "status"
-            widget: "select"
-            multiple: false
-            options: ["Unknown", "Unlikely", "Possible", "Probable", "Certain"]
-            default: "Unknown"
-            required: false
-          #- {label: "Map", name: "Map", widget: "map", decimals: 15 } doesn't work in the list
-          - label: "Latitude"
-            name: "latitude"
-            widget: "number"
-            value_type: "float"
-            min: -99
-            max: 99
-            step: 0.001
-            required: false
-          - label: "Longitude"
-            name: "longitude"
-            widget: "number"
-            value_type: "float"
-            min: -99
-            max: 99
-            step: 0.001
-            required: false
-          - {label: Tags, name: tags, widget: string, required: false}
-          - {label: Bibliography, name: bibliography, widget: list, required: false}
+      - {label: index, name: index, widget: number, min: 0}
+      - {label: Site, name: site, widget: string}
+      - {label: Start, name: start, widget: string, required: false}
+      - {label: End, name: end, widget: string, required: false}
+      - {label: Location, name: location, widget: string}
+      - {label: Description, name: description, widget: text, required: false}
+      - label: "Status"
+        name: "status"
+        widget: "select"
+        multiple: false
+        options: ["Unknown", "Unlikely", "Possible", "Probable", "Certain"]
+        default: "Unknown"
+        required: false
+      #- {label: "Map", name: "Map", widget: "map", decimals: 15 } doesn't work in the list
+      - label: "Latitude"
+        name: "latitude"
+        widget: "number"
+        value_type: "float"
+        min: -99
+        max: 99
+        step: 0.001
+        required: false
+      - label: "Longitude"
+        name: "longitude"
+        widget: "number"
+        value_type: "float"
+        min: -99
+        max: 99
+        step: 0.001
+        required: false
+      - {label: Tags, name: tags, widget: string, required: false}
+      - {label: Bibliography, name: bibliography, widget: list, required: false}
   - label: "Metadata"
     name: "metadata"
     files:
