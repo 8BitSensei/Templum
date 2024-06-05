@@ -119,7 +119,7 @@ function imageExists(url) {
             /* calculate item link */
             var itemHref = '{{ "/item.html?id=" | relative_url }}' + feature.properties.id;
             /* create popup content */
-            var siteImage = window.location.protocol + "//" + window.location.host + "/Templum/objects/site_" + feature.properties.id + ".jpg";
+            var siteImage = window.location.protocol + "//" + window.location.host + "/objects/site_" + feature.properties.id + ".jpg";
             var popupTemplate = '<h4><a class="text-dark" href="' + itemHref + '">' +
                 feature.properties.title + '</a></h4> <p class="mt-1">';
             /* add metadata fields */

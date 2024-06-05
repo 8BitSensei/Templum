@@ -1,5 +1,5 @@
 display_name,stub,dropdown_parent
-Browse,/Templum/browse.html
-Map,/Templum/map.html
-About,/Templum/about.html
+Browse,/browse.html
+Map,/map.html
+About,/about.html
 Blog, https://templum.data.blog/
