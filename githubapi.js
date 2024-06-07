@@ -14,23 +14,39 @@ export default class GithubAPi {
           content: []
         };
 
-        data.forEach(element => {
+        var urls = []
+        for (let i = 0; i < data.length; i++)
+        {
+          var element = data[i]
           var rawPath = element.download_url;
-          if (rawPath.endsWith(".json")) {
-              fetch(rawPath)
-              .then(response => response.json())
-              .then((data) => {
-                if(data) {
-                  aggregatedData.content.push(data)
-                }
-              },
-              (error) => {
-                return callback(error, undefined);
-              })
-          }
-        });
+          urls.push(rawPath);
+        }
 
-        callback(undefined, aggregatedData)
+        var requets = urls.map(function(url){
+          if(url.endsWith(".json"))
+          {
+            return fetch(url)
+            .then(response => response.json())
+            .then((data) => {
+              if(data) {
+                aggregatedData.content.push(data)
+              }
+            },
+            (error) => {
+              return callback(error, undefined);
+            })
+          }
+        })
+        
+
+
+        Promise.all(requets)
+        .then((results) => {
+          return callback(undefined, aggregatedData)
+        },
+        (error) => {
+          return callback(error, undefined);
+        })
       },
       (error) => {
         return callback(error, undefined);

@@ -4,7 +4,7 @@
 import GithubApi from "./githubapi.js";
 
 function makeCard(obj) {
-    var itemHref = "{{ '/item.html' | relative_url | append: '?id=' }}" + obj?.index;
+    var itemHref = "{{ '/item.html' | relative_url | append: '?id=' }}" + encodeURIComponent(obj?.site);
     var imgSrc, thumbSrc;
     var card = '<div class="item col-lg-4 col-md-6 col-sm-12 mb-2"><div class="card">';
     if(imgSrc) {
@@ -212,7 +212,6 @@ function reloadData(params)
       dates = res.content;
     }});
 
-  console.log(dates);
   githubApi.getDirectory('sites', (err, res) => {
     if (err) {
       console.log(err);
@@ -223,7 +222,6 @@ function reloadData(params)
       }
 
       var items = res.content;
-      console.log(items);
       var query = "";
       if(window.location.hash) {
         query = decodeURIComponent(location.hash.substr(1));
