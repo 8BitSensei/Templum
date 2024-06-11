@@ -117,7 +117,7 @@ function imageExists(url) {
             /* bind feature for search */
             feature.layer = layer;{% endif %}
             /* calculate item link */
-            var itemHref = '{{ "/item.html?id=" | relative_url }}' + encodeURIComponent(feature.properties.title);
+            var itemHref = '{{ "/item.html?id=" | relative_url }}' + encodeURIComponent(feature.properties.title.replaceAll("'",""));
             /* create popup content */
             var siteImage = window.location.protocol + "//" + window.location.host + "/objects/site_" + feature.properties.id + ".jpg";
             var popupTemplate = '<h4><a class="text-dark" href="' + itemHref + '">' +

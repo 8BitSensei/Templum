@@ -43,7 +43,7 @@ function reloadData()
         var items = res.content;
         var queryString = window.location.search.substring(1).split("=")[1];
         console.log("query: " + queryString)
-        var record = items.find(site => encodeURIComponent(site.site) == queryString); //this is where we're getting item by index, need to do it by name
+        var record = items.find(site => encodeURIComponent(site.site.replaceAll("'", "")) == queryString); //this is where we're getting item by index, need to do it by name
         if (record) {
             /* add item title */
             var objectTitle = record.site;

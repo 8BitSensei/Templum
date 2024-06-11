@@ -4,7 +4,7 @@
 import GithubApi from "./githubapi.js";
 
 function makeCard(obj) {
-    var itemHref = "{{ '/item.html' | relative_url | append: '?id=' }}" + encodeURIComponent(obj?.site);
+    var itemHref = "{{ '/item.html' | relative_url | append: '?id=' }}" + encodeURIComponent(obj?.site.replaceAll("'",""));
     var imgSrc, thumbSrc;
     var card = '<div class="item col-lg-4 col-md-6 col-sm-12 mb-2"><div class="card">';
     if(imgSrc) {
@@ -195,7 +195,7 @@ function getDateValue(n, dates)
 function downloadJson(sites) {
     var myObjStr = JSON.stringify(sites);
     var element = document.getElementById('download-btn');
-    element.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(myObjStr));
+    element.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(myObjStr.replace("'","")));
     element.setAttribute('download', "templum_results.json");
   }
 
