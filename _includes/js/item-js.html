@@ -33,7 +33,7 @@ function reloadData()
             return false;
     }
 
-    var githubApi = new GithubApi("8BitSensei", "Templum-Data", "decap-testing");
+    var githubApi = new GithubApi("8BitSensei", "Templum-Data", "gh-pages");
     githubApi.getDirectory('sites', (err, res) => {
     if (err) {
       console.log(":(")

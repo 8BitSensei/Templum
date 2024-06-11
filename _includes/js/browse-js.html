@@ -201,7 +201,7 @@ function downloadJson(sites) {
 
 function reloadData(params)
 {
-  var githubApi = new GithubApi("8BitSensei", "Templum-Data", "decap-testing");
+  var githubApi = new GithubApi("8BitSensei", "Templum-Data", "gh-pages");
   
   var dates = {};
   githubApi.get("data/metadata/dates.json", (err, res) => {
