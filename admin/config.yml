@@ -8,83 +8,73 @@ public_folder: /media/uploads
 
 collections:
   - label: "Sites"
-    label_singular: "Site"
-    name: sites
+    name: "sites"
+    folder: "data/sites"
     format: json
-    folder: data
-    path: "templum_sites"
     create: true
-    view_filters:
-        - label: Drafts
-          field: draft
-          pattern: true
+    identifier_field: site
     fields:
-        - {label: "Name", name: name}
-        - {label: "Description", name: description, widget: "text"}
-        - label: "Sites"
-          name: "sites"
-          collapsed: false
-          widget: "list"
-          summary: '{{fields.site}}'
-          fields:
-            - {label: index, name: index, widget: number, min: 0}
-            - {label: Site, name: site, widget: string}
-            - {label: Start, name: start, widget: string, required: false}
-            - {label: End, name: end, widget: string, required: false}
-            - {label: Location, name: location, widget: string}
-            - {label: Description, name: description, widget: text, required: false}
-            - label: "Status"
-              name: "status"
-              widget: "select"
-              multiple: false
-              options: ["Unknown", "Unlikely", "Possible", "Probable", "Certain"]
-              default: "Unknown"
-              required: false
-            #- {label: "Map", name: "Map", widget: "map", decimals: 15 } doesn't work in the list
-            - label: "Latitude"
-              name: "latitude"
-              widget: "number"
-              value_type: "float"
-              min: -99
-              max: 99
-              step: 0.001
-              required: false
-            - label: "Longitude"
-              name: "longitude"
-              widget: "number"
-              value_type: "float"
-              min: -99
-              max: 99
-              step: 0.001
-              required: false
-            - {label: Tags, name: tags, widget: string, required: false}
-            - {label: Bibliography, name: bibliography, widget: list, required: false}
-        - label: "Dates"
-          name: "dates"
-          widget: "object"
-          summary: "Dates enum"
-          fields:
-            - {label: unknown, name: unknown, widget: string, required: false, hidden: true}
-            - {label: early 1st BCE, name: early 1st BCE, widget: string}
-            - {label: mid 1st BCE, name: mid 1st BCE, widget: string}
-            - {label: late 1st BCE, name: late 1st BCE, widget: string}
-            - {label: early 1st CE, name: early 1st CE, widget: string}
-            - {label: mid 1st CE, name: mid 1st CE, widget: string}
-            - {label: late 1st CE, name: late 1st CE, widget: string}
-            - {label: early 2nd CE, name: early 2nd CE, widget: string}
-            - {label: mid 2nd CE, name: mid 2nd CE, widget: string}
-            - {label: late 2nd CE, name: late 2nd CE, widget: string}
-            - {label: early 3rd CE, name: early 3rd CE, widget: string}
-            - {label: mid 3rd CE, name: mid 3rd CE, widget: string}
-            - {label: late 3rd CE, name: late 3rd CE, widget: string}
-            - {label: early 4th CE, name: early 4th CE, widget: string}
-            - {label: mid 4th CE, name: mid 4th CE, widget: string}
-            - {label: late 4th CE, name: late 4th CE, widget: string}
-            - {label: early 5th CE, name: early 5th CE, widget: string}
-            - {label: mid 5th CE, name: mid 5th CE, widget: string}
-            - {label: late 5th CE, name: late 5th CE, widget: string}
-            - {label: early 6th CE, name: early 6th CE, widget: string}
-            - {label: mid 6th CE, name: mid 6th CE, widget: string}
-            - {label: late 6th CE, name: late 6th CE, widget: string}
-            - {label: post 6th CE, name: post 6th CE, widget: string}
-
+      - {label: Site, name: site, widget: string}
+      - {label: Start, name: start, widget: string, required: false}
+      - {label: End, name: end, widget: string, required: false}
+      - {label: Location, name: location, widget: string}
+      - {label: Description, name: description, widget: text, required: false}
+      - label: "Status"
+        name: "status"
+        widget: "select"
+        multiple: false
+        options: ["Unknown", "Unlikely", "Possible", "Probable", "Certain"]
+        default: "Unknown"
+        required: false
+      - {label: "Map", name: "Map", widget: "map", decimals: 15, required: false }
+      - label: "Latitude"
+        name: "latitude"
+        widget: "number"
+        value_type: "float"
+        min: -99
+        max: 99
+        step: 0.001
+        required: false
+      - label: "Longitude"
+        name: "longitude"
+        widget: "number"
+        value_type: "float"
+        min: -99
+        max: 99
+        step: 0.001
+        required: false
+      - {label: Tags, name: tags, widget: string, required: false}
+      - {label: Bibliography, name: bibliography, widget: list, required: false}
+  - label: "Metadata"
+    name: "metadata"
+    format: json
+    files:
+    - label: "Dates"
+      name: "dates"
+      format: json
+      widget: list
+      file: "data/metadata/dates.yml"
+      fields:
+        - {label: unknown, name: unknown, widget: string, required: false, hidden: true}
+        - {label: early 1st BCE, name: early 1st BCE, widget: string}
+        - {label: mid 1st BCE, name: mid 1st BCE, widget: string}
+        - {label: late 1st BCE, name: late 1st BCE, widget: string}
+        - {label: early 1st CE, name: early 1st CE, widget: string}
+        - {label: mid 1st CE, name: mid 1st CE, widget: string}
+        - {label: late 1st CE, name: late 1st CE, widget: string}
+        - {label: early 2nd CE, name: early 2nd CE, widget: string}
+        - {label: mid 2nd CE, name: mid 2nd CE, widget: string}
+        - {label: late 2nd CE, name: late 2nd CE, widget: string}
+        - {label: early 3rd CE, name: early 3rd CE, widget: string}
+        - {label: mid 3rd CE, name: mid 3rd CE, widget: string}
+        - {label: late 3rd CE, name: late 3rd CE, widget: string}
+        - {label: early 4th CE, name: early 4th CE, widget: string}
+        - {label: mid 4th CE, name: mid 4th CE, widget: string}
+        - {label: late 4th CE, name: late 4th CE, widget: string}
+        - {label: early 5th CE, name: early 5th CE, widget: string}
+        - {label: mid 5th CE, name: mid 5th CE, widget: string}
+        - {label: late 5th CE, name: late 5th CE, widget: string}
+        - {label: early 6th CE, name: early 6th CE, widget: string}
+        - {label: mid 6th CE, name: mid 6th CE, widget: string}
+        - {label: late 6th CE, name: late 6th CE, widget: string}
+        - {label: post 6th CE, name: post 6th CE, widget: string}

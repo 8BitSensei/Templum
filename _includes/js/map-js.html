@@ -29,7 +29,7 @@ function imageExists(url) {
 
 (function(){
     var githubApi = new GithubApi("8BitSensei", "Templum-Data", "gh-pages");
-    githubApi.get("data/templum_sites.json", (err, res) => {
+    githubApi.getDirectory('sites', (err, res) => {
     if (err) {
       console.log(err);
     }
@@ -40,7 +40,7 @@ function imageExists(url) {
             "features": [ ]
         };
 
-        res.content.sites.forEach(site => 
+        res.content.forEach(site => 
         {
             if(site.hasOwnProperty('latitude') && site.hasOwnProperty('longitude'))
             {
@@ -117,7 +117,7 @@ function imageExists(url) {
             /* bind feature for search */
             feature.layer = layer;{% endif %}
             /* calculate item link */
-            var itemHref = '{{ "/item.html?id=" | relative_url }}' + feature.properties.id;
+            var itemHref = '{{ "/item.html?id=" | relative_url }}' + encodeURIComponent(feature.properties.title.replaceAll("'",""));
             /* create popup content */
             var siteImage = window.location.protocol + "//" + window.location.host + "/objects/site_" + feature.properties.id + ".jpg";
             var popupTemplate = '<h4><a class="text-dark" href="' + itemHref + '">' +

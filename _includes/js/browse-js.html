@@ -4,7 +4,7 @@
 import GithubApi from "./githubapi.js";
 
 function makeCard(obj) {
-    var itemHref = "{{ '/item.html' | relative_url | append: '?id=' }}" + obj?.index;
+    var itemHref = "{{ '/item.html' | relative_url | append: '?id=' }}" + encodeURIComponent(obj?.site.replaceAll("'",""));
     var imgSrc, thumbSrc;
     var card = '<div class="item col-lg-4 col-md-6 col-sm-12 mb-2"><div class="card">';
     if(imgSrc) {
@@ -66,6 +66,8 @@ function filterItems(arr,q,params) {
     params.page = 1;
   }
   
+  console.log("filtering on ");
+  console.log(arr);
   if (q=="") { 
     var filteredItems = arr; 
   } else {
@@ -80,6 +82,9 @@ function filterItems(arr,q,params) {
     }
   }
 
+  console.log("filtered items ")
+  console.log(filteredItems) // what going on, length is wrong!
+  console.log(filteredItems.length)
   var itemsPerPage = 25;
   var pagination = {
     total: filteredItems.length,
@@ -90,6 +95,7 @@ function filterItems(arr,q,params) {
     to: Math.min(params.page  * itemsPerPage, filteredItems.length)
   };
 
+  console.log(pagination)
   var spliced = filteredItems.slice(pagination.from, pagination.to);
   $("#numberOf").html((pagination.to - pagination.from) + " of " + pagination.total + " items");
   var cards = "";
@@ -189,25 +195,33 @@ function getDateValue(n, dates)
 function downloadJson(sites) {
     var myObjStr = JSON.stringify(sites);
     var element = document.getElementById('download-btn');
-    element.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(myObjStr));
+    element.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(myObjStr.replace("'","")));
     element.setAttribute('download', "templum_results.json");
   }
 
 function reloadData(params)
 {
   var githubApi = new GithubApi("8BitSensei", "Templum-Data", "gh-pages");
-  githubApi.get("data/templum_sites.json", (err, res) => {
+  
+  var dates = {};
+  githubApi.get("data/metadata/dates.json", (err, res) => {
     if (err) {
       console.log(err);
     }
     else {
-      console.log(params);
+      dates = res.content;
+    }});
+
+  githubApi.getDirectory('sites', (err, res) => {
+    if (err) {
+      console.log(err);
+    }
+    else {
       if(params.page == undefined){
         params.page = 1;
       }
 
-      var dates = res.content.dates;
-      var items = res.content.sites;
+      var items = res.content;
       var query = "";
       if(window.location.hash) {
         query = decodeURIComponent(location.hash.substr(1));
@@ -235,7 +249,11 @@ function reloadData(params)
       $('#download-btn').click( function() {
         downloadJson(items);
       });
-    }});
+    }
+
+  })
+  
+
 
 
 }

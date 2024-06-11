@@ -1,12 +1,12 @@
 <script type="module" >
     import GithubApi from "./githubapi.js";
     var githubApi = new GithubApi("8BitSensei", "Templum-Data", "gh-pages");
-    githubApi.get("data/templum_sites.json", (err, res) => {
-        if (err) {
-            console.log(err);
-        }
-        else {
-            var sites = res.content.sites;
+    githubApi.getDirectory('sites', (err, res) => {
+    if (err) {
+      console.log(err);
+    }
+    else {
+        var sites = res.content;
             var rndLocations = [];
             for (let i = 0; i < 7; i++) {
                 var site = sites[Math.floor(Math.random() * sites.length)];
@@ -25,9 +25,8 @@
             {
                 document.getElementById("locations").insertAdjacentHTML("beforeend", '<a class="btn btn-sm btn-info m-1" href="browse.html#' + encodeURIComponent(i) + '">' + i + '</a>');
             })
-            
-        }
-    });
+    }
+  })
 </script>
 <div class="card mb-3">
     <div class="card-body">
